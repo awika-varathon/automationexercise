@@ -1,0 +1,15 @@
+{
+    "name": "awika-automationexercise",
+    "version": "1.0.0",
+    "description": "awika portfolio - website automationexercise automated tesing using cypress",
+    "main": "index.js",
+    "dependencies": {
+        "xlsx": "^0.18.5"
+    },
+    "devDependencies": {
+        "cypress": "^12.16.0"
+    },
+    "scripts": {
+        "cypress:open": "cypress open"
+    }
+}
