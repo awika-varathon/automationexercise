@@ -1,0 +1,194 @@
+{
+    "formCriterial": [
+        {
+            "name": "signup|title",
+            "formTitle": "Title",
+            "elementName": "title",
+            "formType": "radio",
+            "howToFilled": "select",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|name",
+            "formTitle": "Name",
+            "elementName": "name",
+            "formType": "input",
+            "howToFilled": "reference",
+            "elementDisplay": "enable",
+            "defaultValue": ["login|name"],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|email",
+            "formTitle": "Email",
+            "elementName": "email",
+            "formType": "input",
+            "howToFilled": "autofilled",
+            "elementDisplay": "disable",
+            "defaultValue": ["login|email"],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|password",
+            "formTitle": "Password",
+            "elementName": "password",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|day",
+            "formTitle": "Day",
+            "elementName": "days",
+            "formType": "dropdown",
+            "howToFilled": "select",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|month",
+            "formTitle": "Month",
+            "elementName": "months",
+            "formType": "dropdown",
+            "howToFilled": "select",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|year",
+            "formTitle": "Year",
+            "elementName": "years",
+            "formType": "dropdown",
+            "howToFilled": "select",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|newsletter",
+            "formTitle": "Checkbox news letter",
+            "elementName": "uniform-newsletter",
+            "formType": "checkbox",
+            "howToFilled": "check",
+            "elementDisplay": "enable",
+            "defaultValue": ["uncheck"],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|specialoffer",
+            "formTitle": "Checkbox special offers",
+            "elementName": "uniform-optin",
+            "formType": "checkbox",
+            "howToFilled": "check",
+            "elementDisplay": "enable",
+            "defaultValue": ["uncheck"],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|firstname",
+            "formTitle": "First Name",
+            "elementName": "first_name",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|lastname",
+            "formTitle": "Last Name",
+            "elementName": "last_name",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|company",
+            "formTitle": "Company",
+            "elementName": "company",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|address",
+            "formTitle": "Address",
+            "elementName": "address",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|address2",
+            "formTitle": "Address2",
+            "elementName": "address2",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "optional"
+        },
+        {
+            "name": "signup|country",
+            "formTitle": "Country",
+            "elementName": "country",
+            "formType": "dropdown",
+            "howToFilled": "select",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|state",
+            "formTitle": "State",
+            "elementName": "state",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|city",
+            "formTitle": "City",
+            "elementName": "city",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|zipcode",
+            "formTitle": "Zipcode",
+            "elementName": "zipcode",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        },
+        {
+            "name": "signup|mobile",
+            "formTitle": "Mobile Number",
+            "elementName": "mobile_number",
+            "formType": "input",
+            "howToFilled": "type",
+            "elementDisplay": "enable",
+            "defaultValue": [],
+            "isRequiredField": "requierd"
+        }
+    ]
+}

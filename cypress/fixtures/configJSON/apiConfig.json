@@ -1,0 +1,34 @@
+[
+    {
+        "name": "homepage",
+        "type": "visit",
+        "method": "GET",
+        "urlType": "string",
+        "url": "https://pagead2.googlesyndication.com/getconfig/sodar?sv=200&tid=gda&tv=r20230627&st=env",
+        "setIntercept": true
+    },
+    {
+        "name": "signup",
+        "type": "submit",
+        "method": "GET",
+        "urlType": "regex",
+        "url": "https:\\/\\/googleads\\.g\\.doubleclick\\.net\\/pagead\\/adview.*",
+        "setIntercept": true
+    },
+    {
+        "name": "createdAccount",
+        "type": "submit",
+        "method": "GET",
+        "urlType": "regex",
+        "url": "https:\\/\\/vast\\.doubleverify\\.com\\/v3\\/vast.*\\/account_created",
+        "setIntercept": true
+    }  ,
+    {
+        "name": "deletedAccount",
+        "type": "submit",
+        "method": "GET",
+        "urlType": "regex",
+        "url": "https:\\/\\/vast\\.doubleverify\\.com\\/v3\\/vast.*\\/delete_account",
+        "setIntercept": true
+    }  
+]
