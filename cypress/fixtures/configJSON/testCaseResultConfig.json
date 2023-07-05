@@ -1,76 +1,44 @@
 {
-    "login": [
+    "default": [
         { 
             "name": "testDate", 
             "title": "Test Date", 
             "type": "date", 
-            "setValue": "data", 
-            "isBaseKey": true 
+            "setValue": "data" 
         },
         { 
             "name": "testStartTime", 
             "title": "Start Time", 
             "type": "time", 
-            "setValue": "time", 
-            "isBaseKey": false 
+            "setValue": "time" 
         },
         { 
             "name": "testEndTime", 
             "title": "End Time", 
             "type": "setValue", 
-            "setValue": "-", 
-            "isBaseKey": false 
+            "setValue": "-" 
         },
         { 
             "name": "testCase", 
             "title": "Test Case", 
             "type": "criterial-value", 
-            "setValue": "testCaseName", 
-            "isBaseKey": true 
+            "setValue": "testCaseName" 
         },
         { 
             "name": "testStatus", 
             "title": "Test Status", 
             "type": "setValue", 
-            "setValue": "Failed", 
-            "isBaseKey": true 
+            "setValue": "Failed" 
         }
     ],
-    "register": [
+    "login": [],
+    "register": [],
+    "visit": [
         { 
-            "name": "testDate", 
-            "title": "Test Date", 
-            "type": "date", 
-            "setValue": "data", 
-            "isBaseKey": true 
-        },
-        { 
-            "name": "testStartTime", 
-            "title": "Start Time", 
-            "type": "time", 
-            "setValue": "time", 
-            "isBaseKey": false 
-        },
-        { 
-            "name": "testEndTime", 
-            "title": "End Time", 
+            "name": "errorMessage", 
+            "title": "Error Message", 
             "type": "setValue", 
-            "setValue": "-", 
-            "isBaseKey": false 
-        },
-        { 
-            "name": "testCase", 
-            "title": "Test Case", 
-            "type": "criterial-value", 
-            "setValue": "testCaseName", 
-            "isBaseKey": true 
-        },
-        { 
-            "name": "testStatus", 
-            "title": "Test Status", 
-            "type": "setValue", 
-            "setValue": "Failed", 
-            "isBaseKey": true 
+            "setValue": "-" 
         }
     ]
 }

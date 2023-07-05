@@ -11,12 +11,14 @@ module.exports = defineConfig({
 			"PASSWORD": "automatedTest",
 			"WAIT_TIME": 2000
 		},
+        experimentalSessionAndOrigin: true,
 		viewportWidth: 1440,
 		viewportHeight: 780, 
 		defaultCommandTimeout: 20000,
 		responseTimeout: 50000,
 		requestTimeout: 50000,
 		watchForFileChanges: false,
+        numTestsKeptInMemory: 5,
 		setupNodeEvents(on, config) {
 			// implement node event listeners here
 			on('task', {

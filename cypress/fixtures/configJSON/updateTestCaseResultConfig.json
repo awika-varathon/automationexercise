@@ -1,0 +1,10 @@
+{
+    "errorMessage": [
+        { 
+            "name": "errorMessage", 
+            "type": "testResultObject-massage", 
+            "setValue": "errorMessage",
+            "checkValue": ""  
+        }
+    ]
+}

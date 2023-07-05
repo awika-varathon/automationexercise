@@ -8,6 +8,14 @@
         "setIntercept": true
     },
     {
+        "name": "video_tutorials",
+        "type": "visit",
+        "method": "GET",
+        "urlType": "regex",
+        "url": "https:\\/\\/www\\.youtube\\.com.*",
+        "setIntercept": true
+    },
+    {
         "name": "signup",
         "type": "submit",
         "method": "GET",

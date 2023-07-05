@@ -107,8 +107,14 @@ export const getReferenceMappingJson = (key) => {
     switch (key) {
         case 'apiConfig':
             return require(`../${baseFolder}/apiConfig.json`);
+        case 'productsConfig.json':
+            return require(`../${baseFolder}/productsConfig.json`);
         case 'signupConfig':
             return require(`../${baseFolder}/signupConfig.json`);
+        case 'websiteMeunConfig':
+            return require(`../${baseFolder}/websiteMeunConfig.json`);
+        case 'updateTestCaseResultConfig':
+            return require(`../${baseFolder}/updateTestCaseResultConfig.json`);
         case 'testCaseResultConfig':
             return require(`../${baseFolder}/testCaseResultConfig.json`);
     } 
@@ -127,10 +133,9 @@ export const getObjectFromReferenceMappingJson = (mappingJSONFileName, objectKey
 // e.g. options = { testCaseDetail: testCaseDetail, testCaseResult: testCaseResult, formResult: formResult[resultType], $element: $element }
 export const setTestCaseResultObject = (options) => {
 
-    const { testCaseDetail, testCaseResult, formResult } = options;
+    const { testCaseDetail, testCaseResult, setResultObject } = options;
     const $element = options.$element !== undefined ? options.$element : '';
     const testResultObject = options.testResultObject !== undefined ? options.testResultObject : [];
-    const formInfo = options.formInfo !== undefined ? options.formInfo : {};
     const resultCriterial = options.resultCriterial !== undefined ? options.resultCriterial : {};
 
     // Result: Set error message array for check error check value 
@@ -138,7 +143,7 @@ export const setTestCaseResultObject = (options) => {
 
     // Result: Loop set test case result by form's test case result info to test case result variable
     // e.g. formResult = [{ "name": "testEndTime", "type": "time", "setValue": "time" }, ...]
-    formResult.forEach(result => {
+    setResultObject.forEach(result => {
         let resultValue;
         switch(result['type']) {
             case 'setValue':
@@ -186,6 +191,15 @@ export const setTestCaseResultObject = (options) => {
     });
 
     return testCaseResult;
+}
+
+// Result: Loop set test result object from from test case result config JSON by default and test case type
+// e.g. formInfo = [{  "name": "testDate", "title": "Test Date", "type": "date", "setValue": "data"},...]
+export const setResultObjectKeys = (type) => {
+    return [
+        ...getObjectFromReferenceMappingJson('testCaseResultConfig', 'default'),
+        ...getObjectFromReferenceMappingJson('testCaseResultConfig', type)
+    ]
 }
 
 ///////////////////////////////////////////

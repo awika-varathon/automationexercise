@@ -15,7 +15,8 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import './test_registerAndLogin'
+import './test_scripts/test_registerAndLogin'
+import './test_scripts/test_visit'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

@@ -23,16 +23,16 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import { convertNowDateOrTimeForTestCaseResult, getReferenceFilePathName, getReferenceMappingJson, getObjectFromReferenceMappingJson, setTestCaseResultObject, convertJSONArrayToGoldenCSV } from '../support/util'
+import { convertNowDateOrTimeForTestCaseResult, getReferenceFilePathName, getReferenceMappingJson, getObjectFromReferenceMappingJson, setTestCaseResultObject, setResultObjectKeys, convertJSONArrayToGoldenCSV } from '../support/util'
 ///////////////////////////////////////////
 // ++++ API & Response ++++
-// API: Set DMS's website base intercept
+// API: Set website base intercept
 Cypress.Commands.add('setWebsiteBaseIntercept', () => {
     // Get api info from apiConfig.json to set intercept
     // e.g. apiInfo = [{ "name": "login", "type": "login", "method": "GET", "urlType": "string", "url": "/api/auth/session", "setIntercept": true }, ...]
     const apiInfo = getReferenceMappingJson('apiConfig');
 
-    // Loop set all DMS's website base intercept if setIntercept is true (In case cancel api)
+    // Loop set all website base intercept if setIntercept is true (In case cancel api)
     apiInfo.forEach(info => {
         if(info['setIntercept']) {
             // Set intercept from 'method', 'url' and 'name' for 'url' check 'urlType' if is 'regex' convert 'url' from string to regex 
@@ -86,10 +86,16 @@ Cypress.Commands.add('visitHomepage', () => {
 });
 
 // Visit: Visit page from click menu
-// e.g. pageName = 'Home', 'Products', 'Cart', 'Signup / Login', 'Test Cases', 'API Testing', 'Video Tutorials', 'login'  
+// e.g. pageName = 'homepage', 'products', 'cart', 'login', 'logout', 'delete_account', 'test_cases', 'api_testing', 'contact_us', 'video_tutorials', 'errorCase'  
 Cypress.Commands.add('visitPageFromClickMenu', (pageName) => {
-    cy.contains(`.shop-menu ul li`, pageName).click();
-    cy.wait('@homepage');
+    const pageConfig = getObjectFromReferenceMappingJson('websiteMeunConfig', pageName);
+    cy.contains(`.shop-menu ul li`, pageConfig['menuName']).click();
+    if(pageName !== 'video_tutorials') {
+        cy.wait('@homepage');
+    } 
+    // else {
+    //     cy.wait('@video_tutorials');
+    // }
 });
 
 ///////////////////////////////////////////
@@ -125,7 +131,7 @@ Cypress.Commands.add('checkLoginMessage', (options) => {
                 expect($text.text()).to.contains('Logout');
             }));;
             // success: Check 'Login Name' li's text should have name in text
-            cy.get('.shop-menu ul').find('li a i.fa-user').closest('a').should(($text => {
+            cy.get('.shop-menu ul li a i.fa-user').closest('a').should(($text => {
                 expect($text.text()).to.contains(options['name']);
             }));
         break;
@@ -152,7 +158,7 @@ Cypress.Commands.add('logoutWebsite', () => {
     console.log(`Logout to your account`);
 
     // Logout from click menu
-    cy.visitPageFromClickMenu('Logout');
+    cy.visitPageFromClickMenu('logout');
 
     // Check logout message 
     cy.checkLoginMessage({
@@ -173,25 +179,59 @@ Cypress.Commands.add('clickContinueButton', () => {
 // e.g. testCaseDetail = { type: 'login', testCase: 'login_01' }
 Cypress.Commands.add('setBaseTestCaseResultObject', (testCaseDetail) => {
 
-    let resultKey, formInfo;
+    let resultKey, setResultObject;
     resultKey = testCaseDetail['testCaseName'];
 
-    // Get form's info from form config JSON by test case type
-    // e.g. formInfo = [{  "name": "testDate", "title": "Test Date", "type": "date", "setValue": "data", "isBaseKey": true },
-    formInfo = getObjectFromReferenceMappingJson('testCaseResultConfig', testCaseDetail['type']);
-
-    // Loop set base test case result by form's test case result info to test case result variable 
+    // Get setResultObject from test case result config JSON by test case type
+    // e.g. formInfo = [{  "name": "testDate", "title": "Test Date", "type": "date", "setValue": "data"},...]
+    setResultObject = setResultObjectKeys(testCaseDetail['type']);
+    
+    // Set base test case result by setResultObject to test case result variable 
     // Note: Set test status default as 'Failed' then update to 'Pass' if test success 
     const testCaseResult = setTestCaseResultObject({
         testCaseDetail: testCaseDetail, 
         testCaseResult: {}, 
-        formResult: formInfo
+        setResultObject: setResultObject
     });
 
-    // Result:  Set base test case result to test case result variable by testCaseName
+    // Result: Set base test case result to test case result variable by testCaseName
     console.log(`++++ ${resultKey}: Set Base Test Case Result Object ++++`);
     console.log(testCaseResult);
     cy.task('setTestCaseResultVariable', { name: resultKey, value: testCaseResult });
+});
+
+// Result: Update test case result object then set back to test case result variable
+// e.g.  options = { testCaseDetail: testCaseDetail, resultType: 'create'}
+Cypress.Commands.add('updateTestCaseResultObject', (options) => {
+    
+    const { testCaseDetail, type } = options;
+    const testResultObject = options.testResultObject !== undefined ? options.testResultObject : [];
+
+    let resultKey, setResultObject, getElement
+    
+    // Set resultKey as testCaseName
+    resultKey = testCaseDetail['testCaseName'];
+
+    // Get setResultObject from test case result config JSON by test case type
+    // e.g.  "errorMessage": [{ "name": "errorMessage","type": "testResultObject-massage",  "setValue": "errorMessage", "checkValue": ""}]
+    setResultObject = getObjectFromReferenceMappingJson('updateTestCaseResultConfig', type);
+
+    // Get base test case result from test case result variable 
+    cy.task('getTestCaseResultVariable' , { name: resultKey }).then(testCaseResult => {
+        cy.log(`++++ ${resultKey}: Update Test Case Result Object-${type} ++++`);
+        console.log(`++++ ${resultKey}: Update Test Case Result Object-${type} ++++`);
+
+        // Update test case result object by setResultObject as key as from testResultObject as value then set back to test case result variable 
+        testCaseResult = setTestCaseResultObject({
+            testCaseDetail: testCaseDetail, 
+            testCaseResult: testCaseResult, 
+            testResultObject: testResultObject,
+            setResultObject: setResultObject
+        });
+        
+        cy.task('setTestCaseResultVariable', { name: resultKey, value: testCaseResult });
+        console.log('setTestCaseResultVariable', testCaseResult);
+    })
 });
 
 // Result: Write test case results to CSV by form from test case result variable. 
@@ -200,11 +240,11 @@ Cypress.Commands.add('writeTestCaseResultToCSV', (options) => {
 
     const { type, resultKey, testCaseDetail, continuedWriteTestCaseResult,  testIndex } = options;
     
-    let formInfo, filename, filePathName, testStatus, errorMessage
+    let setResultObject, filename, filePathName, testStatus, errorMessage
 
     // formInfo: Get form's info from form config JSON by test case type
     // e.g. formInfo = [{  "name": "testDate", "title": "Test Date", "type": "date", "setValue": "data", "isBaseKey": true },
-    formInfo = getObjectFromReferenceMappingJson('testCaseResultConfig', type);
+    setResultObject = setResultObjectKeys(type);
 
     // filePathName: Set file path name for test result
     // e.g. filePathName = cypress/download/testResult_login/230704_testResult_login.csv
@@ -219,15 +259,21 @@ Cypress.Commands.add('writeTestCaseResultToCSV', (options) => {
         cy.log(`++++ ${resultKey}: Write Test Case Result To CSV ++++`);
         console.log(`++++ ${resultKey}: Write Test Case Result To CSV ++++`);
         console.log(testCaseResult);
+
+        const keys = Object.keys(testCaseResult);
         
         // Update testStatus as 'Pass' and testEndTime as nowTime
-        testCaseResult['testStatus'] = 'Pass';
+        if(keys.some(key => key.includes('errorMessage')) && testCaseResult['errorMessage'] !== '-') {
+            testCaseResult['testStatus'] = 'Failed';
+        } else {
+            testCaseResult['testStatus'] = 'Pass';
+        }
         testCaseResult['testEndTime'] = convertNowDateOrTimeForTestCaseResult('time');
 
         // Loop convert testCaseResult's key to title
         // e.g. writeTestCaseResult = { "Test Date": "04/07/2023", "Start Time": "16:58:29", "End Time": "16:59:00", "Test Case": "login_01", "Test Status": "Failed", …}
         const writeTestCaseResult = {};
-        formInfo.forEach(result => {
+        setResultObject.forEach(result => {
             writeTestCaseResult[result['title']] = testCaseResult[result['name']];
         })
         console.log(writeTestCaseResult);
@@ -241,20 +287,25 @@ Cypress.Commands.add('writeTestCaseResultToCSV', (options) => {
 
         // Return testStatus to show test result in cypress
         testStatus = testCaseResult['testStatus']; 
-        // errorMessage = testCaseResult['errorMessage']; 
+        errorMessage = testCaseResult['errorMessage'] !== undefined ? testCaseResult['errorMessage']  : '-'; 
 
     }).should(() => {
 
         let message = '';
+        message += `Check 2e2 ${type} test case(${resultKey}): Have to Pass ${type} test`
         // Show test result by type if 'Failed', show 'Failed'
         switch(type) {
             case 'login': 
             case 'register': 
                 // Check 2e2 form test case result from all tests status have equel 'Pass'
-                message += `Check 2e2 ${type} test case(${resultKey}): Have to Pass register and login test`
-                // message += ` (Error Message: ${errorMessage})`;
                 expect(testStatus).to.equal('Pass', message);
                 break;
+            case 'visit': 
+                // Check 2e2 form test case result from all tests status have equel 'Pass'
+                message += ` (Error Message: ${errorMessage})`;
+                expect(testStatus).to.equal('Pass', message);
+                break;
+
         }
     })
 });

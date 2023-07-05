@@ -1,0 +1,107 @@
+{
+    "homepage": {
+        "menuName": "Home",
+        "menuIcon": "fa-home",
+        "url": "/",
+        "checkElement": [
+            { "name": "Carousel", "type": "exist", "elementName": "div[id='slider-carousel']" },
+            { "name": "Page-Title", "type": "exist", "elementName": ".features_items h2.title:contains('Features Items')" },
+            { "name": "Product Card", "type": "exist", "elementName": "div.product-image-wrapper" },
+            { "name": "Sidebar-Category", "type": "exist", "elementName": "div.left-sidebar .category-products" },
+            { "name": "Sidebar-Brand", "type": "exist", "elementName": "div.left-sidebar .brands_products" }            
+        ]
+    },
+    "products": {
+        "menuName": "Products",
+        "menuIcon": "card_travel",
+        "url": "/products",
+        "checkElement": [
+            { "name": "Search-Input", "type": "exist", "elementName": "input#search_product" },
+            { "name": "Sidebar-Sumbit", "type": "exist", "elementName": "button#submit_search" },
+            { "name": "Page-Title", "type": "exist", "elementName": ".features_items h2.title:contains('All Products')" },
+            { "name": "Product Card", "type": "exist", "elementName": "div.product-image-wrapper" },
+            { "name": "Sidebar-Categor", "type": "exist", "elementName": "div.left-sidebar .category-products" },
+            { "name": "Sidebar-Brand", "type": "exist", "elementName": "div.left-sidebar .brands_products" }
+        ]
+    },
+    "cart": {
+        "menuName": "Cart",
+        "menuIcon": "fa-shopping-cart",
+        "url": "/view_cart",
+        "checkElement": [
+            { "name": "Breadcrumbs", "type": "exist", "elementName": "div.breadcrumbs li:contains('Shopping Cart')" },
+            { "name": "Cart-Info", "type": "exist", "elementName": "div#cart_info" }
+        ]
+    },
+    "login": {
+        "menuName": "Signup / Login",
+        "menuIcon": "fa-lock",
+        "url": "/login",
+        "checkElement": [
+            { "name": "Login-Title", "type": "exist", "elementName": "div.login-form h2:contains('Login to your account')" },
+            { "name": "Login-Form", "type": "exist", "elementName": "div.login-form form" },
+            { "name": "Signin-Title", "type": "exist", "elementName": "div.signup-form h2:contains('New User Signup!')" },   
+            { "name": "Signin-Form", "type": "exist", "elementName": "div.signup-form form" }         
+        ]
+    },
+    "logout": {
+        "menuName": "Logout",
+        "menuIcon": "fa-lock",
+        "url": "/logout",
+        "checkElement": []
+    },
+    "delete_account": {
+        "menuName": "Delete Account",
+        "menuIcon": "fa-trash-o",
+        "url": "/delete_account",
+        "checkElement": []
+    },
+    "test_cases": {
+        "menuName": "Test Cases",
+        "menuIcon": "fa-list",
+        "url": "/test_cases",
+        "checkElement": [
+            { "name": "Page-Title", "type": "exist", "elementName": "div.container h2:contains('Test Cases')" },
+            { "name": "Section-Panel", "type": "exist", "elementName": "div.panel-group .panel-heading:contains('Test Cases')" },
+            { "name": "Section-Feedback", "type": "exist", "elementName": "div#feedback" }
+        ]
+    },
+    "api_testing": {
+        "menuName": "API Testing",
+        "menuIcon": "fa-list",
+        "url": "/api_list",
+        "checkElement": [
+            { "name": "Page-Title", "type": "exist", "elementName": "div.container h2:contains('APIs List for practice')" },
+            { "name": "Section-Panel", "type": "exist", "elementName": "div.panel-group .panel-heading:contains('API')" },
+            { "name": "Section-Feedback", "type": "exist", "elementName": "div#feedback" }
+        ]
+    },
+    "contact_us": {
+        "menuName": "Contact us",
+        "menuIcon": "fa-envelope",
+        "url": "/contact_us",
+        "checkElement": [
+            { "name": "Page-Title", "type": "exist", "elementName": "div.container .bg h2:contains('Contact Us')" },
+            { "name": "Contact-Title", "type": "exist", "elementName": "div.contact-form h2.title:contains('Get In Touch')" },
+            { "name": "Contact-Form", "type": "exist", "elementName": "div.contact-form div#form-section" },
+            { "name": "Feedback-Title", "type": "exist", "elementName": "div.contact-info h2.title:contains('Feedback For Us')" }            
+        ]
+    },
+    "video_tutorials": {
+        "menuName": "Video Tutorials",
+        "menuIcon": "fa-youtube-play",
+        "url": "https://www.youtube.com/c/AutomationExercise",
+        "checkElement": [
+            { "name": "Youtube-Channel", "type": "exist", "elementName": "#channel-name #test:contains('AutomationExercise')" }
+        ]
+    },
+    "errorCase": {
+        "menuName": "Home",
+        "menuIcon": "fa-home",
+        "url": "/",
+        "checkElement": [
+            { "name": "Dummy1", "type": "exist", "elementName": "div[id='slider-carousel2']" },
+            { "name": "Dummy2", "type": "exist", "elementName": ".features_items h2.title:contains('Home')" }    
+        ]
+    }
+}

@@ -1,27 +1,10 @@
-// ***********************************************************
-// This example support/e2e.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
-// Import commands.js using ES2015 syntax:
-import './commands'
-import { getReferenceMappingJson, filledFormElementVauleByCriterial } from '../support/util'
+import '../commands'
+import { getReferenceMappingJson, filledFormElementVauleByCriterial } from '../util'
 
 // 2e2: Test register and login by test case loop by form type
-// e.g. formTestCaseArray= [{ type: 'login',    testCase: 'login_01' }, { type: 'register',   testCase: 'reg_01' }]
+// e.g. formTestCaseArray= [{ type: 'login', testCase: 'login_01' }, { type: 'register', testCase: 'reg_01' }]
 // e.g. writeTestCaseResult, continuedWriteTestCaseResult = true/false
-export const e2eRegisterAndLoginTestFormDMCbyTestCase = (options) => {
+export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
 
     const { formTestCaseArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
 
@@ -37,7 +20,7 @@ export const e2eRegisterAndLoginTestFormDMCbyTestCase = (options) => {
         describe(`[Register and login] ${testIndex+1}.${testCaseName}-e2e Test `, () => {
           
             beforeEach(() => {
-                // API: Set DMS's website base intercept
+                // API: Set website base intercept
                 cy.setWebsiteBaseIntercept();
     
                 // Variable: Set testCaseCriterialVariable's object 1st times
@@ -56,7 +39,7 @@ export const e2eRegisterAndLoginTestFormDMCbyTestCase = (options) => {
                 // Variable: Set test case's criterial and base
                 // Excel: Get test case's criterial from excel by test case's name and set to test case criterial variable 
                 cy.setFormTestCaseCriterialVariableFromExcel({
-                    testCaseType: 'e2eRegisterAndLogin',
+                    testCaseType: type,
                     testCaseName: testCaseName
                 });
     
@@ -64,7 +47,7 @@ export const e2eRegisterAndLoginTestFormDMCbyTestCase = (options) => {
                 cy.visitHomepage();
     
                 // ++++ Visit Signup / Login page ++++
-                cy.visitPageFromClickMenu('Signup / Login');
+                cy.visitPageFromClickMenu('login');
     
                 // ++++ Register and login ++++
                 // Do action of register And login test case from test case criterial variable
@@ -221,7 +204,7 @@ Cypress.Commands.add('filledSignupInformation', (criterial) => {
                         break;
                     case 'delete':
                         // Delete: Delete account from click menu & Wait api delete account
-                        cy.visitPageFromClickMenu('Delete Account');
+                        cy.visitPageFromClickMenu('delete_account');
                         cy.wait('@homepage');
 
                         // Checking: Checking text 'Account Deleted'
