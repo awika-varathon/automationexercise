@@ -3,14 +3,14 @@ import moment from 'moment';
 
 ///////////////////////////////////////////
 // ++++ Filled & Do Action Element Value  ++++
-// Form: Filled form element value by criterial value base on form type
+// Form: Filled form element value by criteria value base on form type
 // Note: Created function in case can using in different section
 // Section: Signin
-// e.g. formCriterial = { "name": "signup|name", "formTitle": "Name", "elementName": "name", "formType": "input", "howToFilled": "autofilled-type", "defaultValue": ["login|name"], "isRequiredField": "requierd" }
-export const filledFormElementVauleByCriterial = (options) => {
+// e.g. formcriteria = { "name": "signup|name", "formTitle": "Name", "elementName": "[data-qa='name']", "formType": "input", "howToFilled": "autofilled-type", "defaultValue": ["login|name"], "isRequiredField": "requierd" }
+export const filledFormElementVauleBycriteria = (options) => {
 
-    const { formCriterial, criterial } = options;
-    const { name, elementName, formType, howToFilled, defaultValue } = formCriterial;
+    const { formcriteria, criteria } = options;
+    const { name, elementName, formType, howToFilled, defaultValue } = formcriteria;
     let checkValue = '';
 
     // Checking: If howToFilled is 'reference', check vaule first is same as reference value or not in case some filled is not disable can change value after that
@@ -19,55 +19,59 @@ export const filledFormElementVauleByCriterial = (options) => {
         // Check condition by form Type to check 
         switch (true) {
             case formType === 'input':
-                cy.log(`Check Form Element Vaule: ${name}: ${criterial[defaultValue[0]]}-${formType}`);
-                console.log(`Check Form Element Vaule: ${name}: ${criterial[defaultValue[0]]}-${formType}`);
+                cy.log(`Check Form Element Vaule: ${name}: ${criteria[defaultValue[0]]}-${formType}`);
+                console.log(`Check Form Element Vaule: ${name}: ${criteria[defaultValue[0]]}-${formType}`);
 
                 // INPUT: Check with 1st defaultValue as reference value 
-                // e.g. { "name": "signup|name", "formTitle": "Name", "elementName": "name", "formType": "input", "howToFilled": "autofilled-type", "defaultValue": ["login|name"], "isRequiredField": "requierd" }
-                cy.get(`input[data-qa="${elementName}"]`)
-                    .should('have.value', criterial[defaultValue[0]]);
-                    checkValue = criterial[defaultValue[0]];
+                // e.g. { "name": "signup|name", "formTitle": "Name", "elementName": "[data-qa='name']", "formType": "input", "howToFilled": "autofilled-type", "defaultValue": ["login|name"], "isRequiredField": "requierd" }
+                cy.get(`input${elementName}`)
+                    .should('have.value', criteria[defaultValue[0]]);
+                    checkValue = criteria[defaultValue[0]];
                 break;
         }
     }
 
-    // Filled: Filled value by formType & howToFilled if criterial has set value
-    if(criterial[name] !== undefined || criterial[name] !== checkValue) {
+    // Filled: Filled value by formType & howToFilled if criteria has set value
+    if(criteria[name] !== undefined || criteria[name] !== checkValue) {
 
-        cy.log(`Filled Form Element Vaule: ${name}: ${criterial[name]}-${formType}-${howToFilled}`);
-        console.log(`Filled Form Element Vaule: ${name}: ${criterial[name]}-${formType}-${howToFilled}`);
+        cy.log(`Filled Form Element Vaule: ${name}: ${criteria[name]}-${formType}-${howToFilled}`);
+        console.log(`Filled Form Element Vaule: ${name}: ${criteria[name]}-${formType}-${howToFilled}`);
 
         switch (true) {
             case formType === 'none': 
                 break;
             case formType === 'input' && (howToFilled === 'type' || howToFilled === 'reference'):
-                // INPUT & TYPE: Filled input with criterial's value by type's value and click body to clear in case this input trigger other input
-                cy.get(`input[data-qa="${elementName}"]`).clear().type(criterial[name]);
+                // INPUT & TYPE: Filled input with criteria's value by type's value and click body to clear in case this input trigger other input
+                // e.g. element name = input[data-qa='name']
+                cy.get(`input${elementName}`).clear().type(criteria[name]);
                 cy.get('body').click(0,0);
                 break;
             case formType === 'input' && howToFilled === 'autofilled':
-                // INPUT & AUTOFILLED: Input will be filled by action before, only check input value is equel criterial's value and should be disabled
-                cy.get(`input[data-qa="${elementName}"]`)
-                    .should('have.value', criterial[name])
+                // INPUT & AUTOFILLED: Input will be filled by action before, only check input value is equel criteria's value and should be disabled
+                // e.g. element name = input[data-qa='name']
+                cy.get(`input${elementName}`)
+                    .should('have.value', criteria[name])
                     // .should('have.attr', 'disabled');
                 break;
             case formType === 'dropdown':
                 // DROPDOWN:  Select value from dropdown
                 // Note: 'force: true' for dropdown that not visible which need to scroll down to see options
-                cy.get(`select[data-qa="${elementName}"]`).select(criterial[name], { force: true });
+                // e.g. element name = select[data-qa='days']
+                cy.get(`select${elementName}`).select(criteria[name], { force: true });
                 break;
             case formType === 'checkbox': 
-                // CHECKBOX: Check or uncheck checkbox's input by criterial's value
-                if(criterial[name] === 'check') {
-                    cy.get(`div[id="${elementName}"] input[type="checkbox"]`).check();
-                } else if(criterial[name] === 'uncheck'){
-                    cy.get(`div[id="${elementName}"] input[type="checkbox"]`).uncheck();
+                // CHECKBOX: Check or uncheck checkbox's input by criteria's value
+                // e.g. element name = div[id='uniform-optin'] input[type="checkbox"]
+                if(criteria[name] === 'check') {
+                    cy.get(`div${elementName} input[type="checkbox"]`).check();
+                } else if(criteria[name] === 'uncheck'){
+                    cy.get(`div${elementName} input[type="checkbox"]`).uncheck();
                 }
                 break;
             case formType === 'radio': 
-                // RADIO: Check radio's input by criterial's value
+                // RADIO: Check radio's input by criteria's value
                 // e.g. element name = 'div[data-qa="title"] input[type="radio"]'
-                cy.get(`div[data-qa="${elementName}"] input[type="radio"]`).check(criterial[name].replace('.', ''));
+                cy.get(`div${elementName} input[type="radio"]`).check(criteria[name].replace('.', ''));
                 break;
         }
     } else {
@@ -95,7 +99,7 @@ export const convertNowDateOrTimeForTestCaseResult = (type) => {
 export const getReferenceFilePathName = (key) => {
     const object = {
         configJSON : 'cypress/fixtures/configJSON',
-        testCaseCriterial : `cypress/fixtures/testCaseCriterial/`,
+        testCasecriteria : `cypress/fixtures/testCasecriteria`,
         testResult : `cypress/downloads/testResult`,
     }
     return object[key];
@@ -109,12 +113,14 @@ export const getReferenceMappingJson = (key) => {
             return require(`../${baseFolder}/apiConfig.json`);
         case 'productsConfig.json':
             return require(`../${baseFolder}/productsConfig.json`);
-        case 'signupConfig':
-            return require(`../${baseFolder}/signupConfig.json`);
+        case 'inputConfig':
+            return require(`../${baseFolder}/inputConfig.json`);
         case 'websiteMeunConfig':
             return require(`../${baseFolder}/websiteMeunConfig.json`);
         case 'updateTestCaseResultConfig':
             return require(`../${baseFolder}/updateTestCaseResultConfig.json`);
+        case 'userConfig':
+            return require(`../${baseFolder}/userConfig.json`);
         case 'testCaseResultConfig':
             return require(`../${baseFolder}/testCaseResultConfig.json`);
     } 
@@ -136,7 +142,7 @@ export const setTestCaseResultObject = (options) => {
     const { testCaseDetail, testCaseResult, setResultObject } = options;
     const $element = options.$element !== undefined ? options.$element : '';
     const testResultObject = options.testResultObject !== undefined ? options.testResultObject : [];
-    const resultCriterial = options.resultCriterial !== undefined ? options.resultCriterial : {};
+    const resultcriteria = options.resultcriteria !== undefined ? options.resultcriteria : {};
 
     // Result: Set error message array for check error check value 
     let errorMessageArray = [];
@@ -167,12 +173,12 @@ export const setTestCaseResultObject = (options) => {
                 // resultValue = moment(new Date()).format('HH:mm:ss');
                 resultValue = convertNowDateOrTimeForTestCaseResult('time');
                 break;
-            case 'criterial-value':
-                // Type: 'criterial' set result vaule from testCaseDetail with 'setValue' as key
+            case 'criteria-value':
+                // Type: 'criteria' set result vaule from testCaseDetail with 'setValue' as key
                 resultValue = testCaseDetail[result['setValue']];
                 break;
-            case 'criterial-checkValue':
-                // Type: 'criterial-checkValue' check vaule from testCaseDetail with 'setValue' as key is true all not
+            case 'criteria-checkValue':
+                // Type: 'criteria-checkValue' check vaule from testCaseDetail with 'setValue' as key is true all not
                 // If true set result vaule as 'Failed' as base result vaule which will update result vaule to 'Pass' after test these action done and pass, if false means doesn't test this action then set result vaule as '-'  
                 // e.g. testCaseDetail[createStatusBR]
                 resultValue = testCaseDetail[result['setValue']] ? 'Failed' : '-';
@@ -182,7 +188,7 @@ export const setTestCaseResultObject = (options) => {
                 resultValue = testResultObject[result['setValue']];
                 break;
             case 'testResultObject-massage':
-                // Type: 'checkCriterial' check vaule from testCaseDetail with 'setValue' as key is true all not
+                // Type: 'checkcriteria' check vaule from testCaseDetail with 'setValue' as key is true all not
                 resultValue = testCaseResult[result['name']] === '-' ? testResultObject[result['setValue']] : testCaseResult[result['name']] + ', ' + testResultObject[result['setValue']];
                 break;
         }

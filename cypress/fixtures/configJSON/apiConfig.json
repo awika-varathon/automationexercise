@@ -3,8 +3,8 @@
         "name": "homepage",
         "type": "visit",
         "method": "GET",
-        "urlType": "string",
-        "url": "https://pagead2.googlesyndication.com/getconfig/sodar?sv=200&tid=gda&tv=r20230627&st=env",
+        "urlType": "regex",
+        "url": "https:\\/\\/pagead2.googlesyndication.com\\/getconfig\\/sodar\\?sv=200.*",
         "setIntercept": true
     },
     {
@@ -12,7 +12,7 @@
         "type": "visit",
         "method": "GET",
         "urlType": "regex",
-        "url": "https:\\/\\/www\\.youtube\\.com.*",
+        "url": "https:\\/\\/www.youtube.com.*",
         "setIntercept": true
     },
     {
@@ -20,7 +20,7 @@
         "type": "submit",
         "method": "GET",
         "urlType": "regex",
-        "url": "https:\\/\\/googleads\\.g\\.doubleclick\\.net\\/pagead\\/adview.*",
+        "url": "https:\\/\\/googleads.g.doubleclick.net\\/pagead\\/adview.*",
         "setIntercept": true
     },
     {
@@ -28,15 +28,31 @@
         "type": "submit",
         "method": "GET",
         "urlType": "regex",
-        "url": "https:\\/\\/vast\\.doubleverify\\.com\\/v3\\/vast.*\\/account_created",
+        "url": "https:\\/\\/vast.doubleverify.com\\/v3\\/vast.*\\/account_created",
         "setIntercept": true
-    }  ,
+    },
     {
         "name": "deletedAccount",
         "type": "submit",
         "method": "GET",
         "urlType": "regex",
-        "url": "https:\\/\\/vast\\.doubleverify\\.com\\/v3\\/vast.*\\/delete_account",
+        "url": "https:\\/\\/vast.doubleverify.com\\/v3\\/vast.*\\/delete_account",
+        "setIntercept": true
+    },
+    {
+        "name": "addOrder",
+        "type": "add",
+        "method": "GET",
+        "urlType": "regex",
+        "url": "https:\\/\\/www\\.automationexercise\\.com\\/add_to_cart.*",
+        "setIntercept": true
+    }, 
+    {
+        "name": "deletedOrder",
+        "type": "delete",
+        "method": "GET",
+        "urlType": "regex",
+        "url": "https:\\/\\/www\\.automationexercise\\.com\\/delete_cart.*",
         "setIntercept": true
     }  
 ]

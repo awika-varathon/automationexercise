@@ -1,7 +1,7 @@
 import { e2eVisitTestScriptsbyTestCase } from '../../support/test_scripts/test_visit'
 
 // ++++ Test 2e2 login by test case ++++
-// Set test case array, testCase has to has same name in testCase's criterial sheet
+// Set test case array, testCase has to has same name in testCase's criteria sheet
 // visit = 'visit_01', 'visit_02', 'visit_03', 'visit_04', 'visit_05', 'visit_06', 'visit_07' 
 const e2eTestCaseArray = [
     { type: 'visit', testCaseName: 'visit_01', page: "homepage" },

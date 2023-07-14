@@ -7,7 +7,7 @@ describe(`[Get Data] Get all products data from product page or api`, () => {
         cy.setWebsiteBaseIntercept();
     });
 
-    const pathPath = `${getReferenceFilePathName('configJSON')}/productConfigReference`
+    const pathPath = `${getReferenceFilePathName('configJSON')}/configReference`
     const websiteDataPathNameFile = `${pathPath}/productWebsiteConfig.json`
     const apiPathDataNameFile = `${pathPath}/productApiConfig.json`
     const configPathNameFile = `${getReferenceFilePathName('configJSON')}/productsConfig.json`

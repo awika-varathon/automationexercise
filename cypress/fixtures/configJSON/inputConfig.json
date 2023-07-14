@@ -1,0 +1,299 @@
+{
+    "signup": {
+        "formcriteria": [
+            {
+                "name": "signup|title",
+                "formTitle": "Title",
+                "elementName": "[data-qa='title']",
+                "formType": "radio",
+                "howToFilled": "select",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|name",
+                "formTitle": "Name",
+                "elementName": "[data-qa='name']",
+                "formType": "input",
+                "howToFilled": "reference",
+                "elementDisplay": "enable",
+                "defaultValue": ["login|name"],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|email",
+                "formTitle": "Email",
+                "elementName": "[data-qa='email']",
+                "formType": "input",
+                "howToFilled": "autofilled",
+                "elementDisplay": "disable",
+                "defaultValue": ["login|email"],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|password",
+                "formTitle": "Password",
+                "elementName": "[data-qa='password']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|day",
+                "formTitle": "Day",
+                "elementName": "[data-qa='days']",
+                "formType": "dropdown",
+                "howToFilled": "select",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|month",
+                "formTitle": "Month",
+                "elementName": "[data-qa='months']",
+                "formType": "dropdown",
+                "howToFilled": "select",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|year",
+                "formTitle": "Year",
+                "elementName": "[data-qa='years']",
+                "formType": "dropdown",
+                "howToFilled": "select",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|newsletter",
+                "formTitle": "Checkbox news letter",
+                "elementName": "[id='uniform-newsletter']",
+                "formType": "checkbox",
+                "howToFilled": "check",
+                "elementDisplay": "enable",
+                "defaultValue": ["uncheck"],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|specialoffer",
+                "formTitle": "Checkbox special offers",
+                "elementName": "[id='uniform-optin']",
+                "formType": "checkbox",
+                "howToFilled": "check",
+                "elementDisplay": "enable",
+                "defaultValue": ["uncheck"],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|firstname",
+                "formTitle": "First Name",
+                "elementName": "[data-qa='first_name']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|lastname",
+                "formTitle": "Last Name",
+                "elementName": "[data-qa='last_name']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|company",
+                "formTitle": "Company",
+                "elementName": "[data-qa='company']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|address",
+                "formTitle": "Address",
+                "elementName": "[data-qa='address']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|address2",
+                "formTitle": "Address2",
+                "elementName": "[data-qa='address2']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "signup|country",
+                "formTitle": "Country",
+                "elementName": "[data-qa='country']",
+                "formType": "dropdown",
+                "howToFilled": "select",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|state",
+                "formTitle": "State",
+                "elementName": "[data-qa='state']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|city",
+                "formTitle": "City",
+                "elementName": "[data-qa='city']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|zipcode",
+                "formTitle": "Zipcode",
+                "elementName": "[data-qa='zipcode']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "signup|mobile",
+                "formTitle": "Mobile Number",
+                "elementName": "[data-qa='mobile_number']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            }
+        ]
+    },
+    "writeYourReview": {
+        "formcriteria": [
+            {
+                "name": "review|name",
+                "formTitle": "Your Name",
+                "elementName": "[id='name']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "review|email",
+                "formTitle": "Email Address",
+                "elementName": "[id='email']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "review|review",
+                "formTitle": "Add Review Here!",
+                "elementName": "[id='review']",
+                "formType": "textarea",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            }
+        ]
+    },
+    "subscription": {
+        "elementAttr": "id",
+        "formcriteria":  [
+            {
+                "name": "subscription|email",
+                "formTitle": "Your email address",
+                "elementName": "[id='susbscribe_email]",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            }
+        ]
+    },
+    "contactUs": {
+        "formcriteria": [
+            {
+                "name": "contact|name",
+                "formTitle": "Name",
+                "elementName": "[data-qa='name']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "contact|email",
+                "formTitle": "Email",
+                "elementName": "[data-qa='email']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "contact|subject",
+                "formTitle": "Subject",
+                "elementName": "[data-qa='subject']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "contact|subject",
+                "formTitle": "Your Message Here",
+                "elementName": "[data-qa='message']",
+                "formType": "textarea",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            },
+            {
+                "name": "contact|file",
+                "formTitle": "File",
+                "elementName": "[name='upload_file']",
+                "formType": "upload",
+                "howToFilled": "button",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "optional"
+            }
+        ]
+    }
+}

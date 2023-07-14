@@ -21,7 +21,7 @@
         { 
             "name": "testCase", 
             "title": "Test Case", 
-            "type": "criterial-value", 
+            "type": "criteria-value", 
             "setValue": "testCaseName" 
         },
         { 
@@ -34,6 +34,14 @@
     "login": [],
     "register": [],
     "visit": [
+        { 
+            "name": "errorMessage", 
+            "title": "Error Message", 
+            "type": "setValue", 
+            "setValue": "-" 
+        }
+    ],
+    "e2eOrder": [
         { 
             "name": "errorMessage", 
             "title": "Error Message", 

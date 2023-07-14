@@ -23,7 +23,7 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                 // API: Set website base intercept
                 cy.setWebsiteBaseIntercept();
     
-                // Variable: Set testCaseCriterialVariable's object 1st times
+                // Variable: Set testCasecriteriaVariable's object 1st times
                 cy.task('clearTempVariables');
             });
     
