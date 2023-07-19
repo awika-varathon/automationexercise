@@ -41,12 +41,5 @@
             "setValue": "-" 
         }
     ],
-    "e2eOrder": [
-        { 
-            "name": "errorMessage", 
-            "title": "Error Message", 
-            "type": "setValue", 
-            "setValue": "-" 
-        }
-    ]
+    "e2eOrder": []
 }

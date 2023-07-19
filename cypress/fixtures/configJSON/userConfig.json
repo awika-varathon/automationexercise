@@ -1,5 +1,6 @@
 {
-  "default": {
+  "automatedUser": {
+    "userType": "login",
     "title": "Mr.",
     "name": "Automated Test",
     "email": "automated.test@mail.com",
@@ -18,14 +19,10 @@
     "state": "New York",
     "city": "New York",
     "zipcode": "10001",
-    "mobile": "00000000001",
-    "cardName": "Automated Test",
-    "cardNumber": "1000200030004000",
-    "cardCvc": 100,
-    "cardExMonth": "05",
-    "cardExYear": 2024
+    "mobile": "00000000001"
   },
-  "order": {
+  "orderUser": {
+    "userType": "signup",
     "title": "Mr.",
     "name": "Automated Order",
     "email": "automated.test.order@mail.com",
@@ -44,11 +41,28 @@
     "state": "BC",
     "city": "Vancouver",
     "zipcode": "V3B",
-    "mobile": "987654321",
-    "cardName": "Automated Order",
-    "cardNumber": "9876876576543210",
-    "cardCvc": 999,
-    "cardExMonth": "12",
-    "cardExYear": 2025
+    "mobile": "987654321"
+  },
+  "noCompanyUser": {
+    "userType": "signup",
+    "title": "Mrs.",
+    "name": "Automated Nocompany",
+    "email": "automated.nocompany@mail.com",
+    "password": "automatedNocompany",
+    "day": 16,
+    "month": "April",
+    "year": "2010",
+    "newsletter": "uncheck",
+    "specialoffer": "uncheck",
+    "firstname": "Automated",
+    "lastname": "Nocompany",
+    "company": "",
+    "address": "003, RR Building SS Street",
+    "address2": "C District",
+    "country": "India",
+    "state": "Mumbai",
+    "city": "Mumbai",
+    "zipcode": "400001",
+    "mobile": "00000000002"
   }
 }

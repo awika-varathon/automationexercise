@@ -32,7 +32,7 @@ export const filledFormElementVauleBycriteria = (options) => {
     }
 
     // Filled: Filled value by formType & howToFilled if criteria has set value
-    if(criteria[name] !== undefined || criteria[name] !== checkValue) {
+    if((criteria[name] !== undefined && criteria[name] !== '')|| criteria[name] !== checkValue) {
 
         cy.log(`Filled Form Element Vaule: ${name}: ${criteria[name]}-${formType}-${howToFilled}`);
         console.log(`Filled Form Element Vaule: ${name}: ${criteria[name]}-${formType}-${howToFilled}`);
@@ -47,7 +47,7 @@ export const filledFormElementVauleBycriteria = (options) => {
                 cy.get('body').click(0,0);
                 break;
             case formType === 'input' && howToFilled === 'autofilled':
-                // INPUT & AUTOFILLED: Input will be filled by action before, only check input value is equel criteria's value and should be disabled
+                // INPUT & AUTOFILLED: Input will be filled by action before, only check input value is equal criteria's value and should be disabled
                 // e.g. element name = input[data-qa='name']
                 cy.get(`input${elementName}`)
                     .should('have.value', criteria[name])
@@ -80,6 +80,105 @@ export const filledFormElementVauleBycriteria = (options) => {
     }
 };
 
+///////////////////////////////////////////
+// ++++ Checking Element Value ++++
+// Checking: Loop check product detail from element value is equal order detail or not which each main element has different check element so need to set check element's id and order detail object's key
+export const loopCheckElementAndCompareValues = ($ele, checkElement, criteria) => {
+
+    // Loop check product detail from element value is equal order detail
+    // e.g. checkElement = [ { "key": "name", "id": "h2:eq(0)", "type": "text","matchType": "equal", "toLowerCase": false  } ... ];
+    checkElement.forEach(element => {
+
+        console.log(`${element['key']}: Element should exist & compare value`);
+        console.log(JSON.stringify(element));
+
+        // Get element's value from id or class and by element's type is text, input or attr
+        let elementValue = '';
+        switch(true) {
+            case element['type'] === 'text':
+                // If element's type is 'text', get value from text and replace all text line break
+                elementValue = removeTextLinebreaks($ele.find(element['id']).text());
+                // console.log('text')
+                break;
+            case element['type'] === 'input':
+                // If element's type is 'input', get value from value
+                elementValue = $ele.find(element['id']).val();
+                // console.log('Input')
+                break;
+            case element['type'].includes('attr'):
+                // If element's type includes 'attr', get attr's name get attr's value
+                // e.g. element['type'] = attr|src => title
+                elementValue = $ele.find(element['id']).attr(element['type'].replace('attr|', ''));
+                // console.log('Attr')
+                break;
+            case element['type'] === 'tr|id':
+                // If element's type is 'tr|id', get id for tr which is $ele level to get product's id
+                // e.g. $ele = <tr id="product-1"> => 'product-1' => '1'
+                elementValue = $ele.attr('id').replace('product-', '');
+                break;
+            case element['type'] === 'table|src':
+                // If element's type is 'table|src', add '/' at front to match criteria
+                // e.g. $ele = src="get_product_picture/2" => '/get_product_picture/2'
+                elementValue = '/' + $ele.find(element['id']).attr('src');
+                break;
+        }
+        
+        // Get baseValue from criteria by element's key
+        let baseValue = '';
+        switch(true) {
+            case element['key'] === 'city-state-zipcode':
+                // If key is 'city-state-zipcode', concat city, state and zipcode for address mapping
+                // baseValue = `New York New York 10001`
+                baseValue = `${criteria['city']} ${criteria['state']}${criteria['zipcode']}`
+                break;
+            default: 
+                // Default: Set baseValue as criteria by element's key value
+                baseValue =  criteria[element['key']];
+                break;
+        }
+        
+        // Set log message
+        const message = `${element['key']} from element(${elementValue}) is ${element['matchType']} raw data(${baseValue})`
+
+        // Check if element's toLowerCase is true convert both value to lower case before compare
+        if(element['toLowerCase']) {
+            baseValue = baseValue.toLowerCase();
+            elementValue = elementValue.toLowerCase();
+        }
+
+        cy.get($ele)
+            .should(() => {
+                // Check element's matchType
+                if(element['matchType'] === 'equal') {
+                    // If matchType is 'equal' compare to equal
+                    expect(elementValue).to.equal(baseValue, message);
+                } else if(element['matchType'] === 'contains') {
+                    // If matchType is 'contains' compare to elementValue include in baseValue
+                    expect(elementValue).to.include(baseValue, message);
+                } else if(element['matchType'] === 'startsWith') {
+                    // If matchType is 'startsWith' compare to elementValue startsWith in baseValue
+                    expect(elementValue).to.match(new RegExp(`^${baseValue}`, 'g'), message);
+                } else if(element['matchType'] === 'endsWith') {
+                    // If matchType is cstartsWith compare to elementValue startsWith in baseValue
+                    expect(elementValue).to.match(new RegExp(`${baseValue}$`, 'g'), message);
+                }
+        });
+    });
+}
+
+// Checking: Checking input validation message by checkCase
+// e.g. elementName = '[data-qa="signup-email"]', '[id='name']'
+export const checkElementValidationMessage = (elementName, checkCase) => {
+
+    const checkCaseObject = {
+        'fillField': 'Please fill out this field.',
+        'formatEmail': "Please include an '@' in the email address."
+    }
+    
+    cy.get('input' + elementName).invoke('prop', 'validationMessage')
+    .should('contain', checkCaseObject[checkCase])
+}
+///////////////////////////////////////////
 // ++++ Convent Value For Test Value ++++
 // Date: Convert nowDate to date or time or test case result
 export const convertNowDateOrTimeForTestCaseResult = (type) => {
@@ -91,6 +190,12 @@ export const convertNowDateOrTimeForTestCaseResult = (type) => {
         case 'time':
             return moment(new Date()).format('HH:mm:ss');
     }
+}
+
+// Remove all text line breaks when get from function text()
+export const removeTextLinebreaks = (str) => {
+    return str.replaceAll(/[\r\n\t]+/gm,''); 
+    // return str.replaceAll( /[\r\n\t]+/gm,'').replace(/(?:\r\n|\r|\n)/g, '').replaceAll(/(&nbsp;)*/g,'');
 }
 
 ///////////////////////////////////////////
@@ -111,18 +216,22 @@ export const getReferenceMappingJson = (key) => {
     switch (key) {
         case 'apiConfig':
             return require(`../${baseFolder}/apiConfig.json`);
-        case 'productsConfig.json':
-            return require(`../${baseFolder}/productsConfig.json`);
+        case 'checkElementsConfig':
+            return require(`../${baseFolder}/checkElementsConfig.json`);
         case 'inputConfig':
             return require(`../${baseFolder}/inputConfig.json`);
-        case 'websiteMeunConfig':
-            return require(`../${baseFolder}/websiteMeunConfig.json`);
+        case 'paymentConfig':
+            return require(`../${baseFolder}/paymentConfig.json`);
+        case 'productsConfig.json':
+            return require(`../${baseFolder}/productsConfig.json`);
+        case 'testCaseResultConfig':
+            return require(`../${baseFolder}/testCaseResultConfig.json`);        
         case 'updateTestCaseResultConfig':
             return require(`../${baseFolder}/updateTestCaseResultConfig.json`);
         case 'userConfig':
             return require(`../${baseFolder}/userConfig.json`);
-        case 'testCaseResultConfig':
-            return require(`../${baseFolder}/testCaseResultConfig.json`);
+        case 'websiteMeunConfig':
+            return require(`../${baseFolder}/websiteMeunConfig.json`);
     } 
 }
 
@@ -142,13 +251,9 @@ export const setTestCaseResultObject = (options) => {
     const { testCaseDetail, testCaseResult, setResultObject } = options;
     const $element = options.$element !== undefined ? options.$element : '';
     const testResultObject = options.testResultObject !== undefined ? options.testResultObject : [];
-    const resultcriteria = options.resultcriteria !== undefined ? options.resultcriteria : {};
-
-    // Result: Set error message array for check error check value 
-    let errorMessageArray = [];
 
     // Result: Loop set test case result by form's test case result info to test case result variable
-    // e.g. formResult = [{ "name": "testEndTime", "type": "time", "setValue": "time" }, ...]
+    // e.g. result = [{ "name": "testEndTime", "type": "time", "setValue": "time" }, ...]
     setResultObject.forEach(result => {
         let resultValue;
         switch(result['type']) {
@@ -166,29 +271,24 @@ export const setTestCaseResultObject = (options) => {
                 resultValue = $element.find(result['setValue']).val();
                 break;
             case 'date':
-                // resultValue = moment(new Date()).format('MM/DD/YYYY');
+                // Type: 'date' set result vaule as now date
                 resultValue = convertNowDateOrTimeForTestCaseResult('date');
                 break;
             case 'time':
-                // resultValue = moment(new Date()).format('HH:mm:ss');
+                // Type: 'time' set result vaule as now time
                 resultValue = convertNowDateOrTimeForTestCaseResult('time');
                 break;
             case 'criteria-value':
                 // Type: 'criteria' set result vaule from testCaseDetail with 'setValue' as key
                 resultValue = testCaseDetail[result['setValue']];
                 break;
-            case 'criteria-checkValue':
-                // Type: 'criteria-checkValue' check vaule from testCaseDetail with 'setValue' as key is true all not
-                // If true set result vaule as 'Failed' as base result vaule which will update result vaule to 'Pass' after test these action done and pass, if false means doesn't test this action then set result vaule as '-'  
-                // e.g. testCaseDetail[createStatusBR]
-                resultValue = testCaseDetail[result['setValue']] ? 'Failed' : '-';
-                break;  
             case 'testResultObject-value':
-                // Type: 'testResultObject-value' check vaule from testCaseDetail with 'setValue' as key is true all not
+                // Type: 'testResultObject-value' set result vaule  from testResultObject with 'setValue' as key
+                // e.g. { "name": "testStatus",  "type": "testResultObject-value", "setValue": "testStatus", "checkValue": "" }
                 resultValue = testResultObject[result['setValue']];
                 break;
             case 'testResultObject-massage':
-                // Type: 'checkcriteria' check vaule from testCaseDetail with 'setValue' as key is true all not
+                // Type: 'testResultObject-massage' set result vaule from testResultObject with 'setValue' as key. If message is '-' set as '-' else concat message with ',' 
                 resultValue = testCaseResult[result['name']] === '-' ? testResultObject[result['setValue']] : testCaseResult[result['name']] + ', ' + testResultObject[result['setValue']];
                 break;
         }

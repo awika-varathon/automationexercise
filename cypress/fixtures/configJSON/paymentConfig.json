@@ -1,0 +1,30 @@
+{
+    "defaultCard": {
+        "cardName": "Automated Test",
+        "cardNumber": "1000200030004000",
+        "cardCvc": 100,
+        "cardExMonth": "05",
+        "cardExYear": 2024
+    },
+    "orderCard": {
+        "cardName": "Automated Order",
+        "cardNumber": "9876876576543210",
+        "cardCvc": 999,
+        "cardExMonth": "12",
+        "cardExYear": 2025
+    },
+    "noCompanyCard": {
+        "cardName": "Automated Nocompany",
+        "cardNumber": "9000800060005000",
+        "cardCvc": 567,
+        "cardExMonth": "05",
+        "cardExYear": 2027
+    },
+    "errorCard": {
+        "cardName": "Automated Error",
+        "cardNumber": "0001000200030004",
+        "cardCvc": 500,
+        "cardExMonth": "12",
+        "cardExYear": 2021
+    }
+}

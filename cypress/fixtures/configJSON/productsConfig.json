@@ -1,6 +1,6 @@
 [
 	{
-		"id": 1,
+		"id": "1",
 		"name": "Blue Top",
 		"price": "Rs. 500",
 		"brand": "Polo",
@@ -10,13 +10,14 @@
 			},
 			"category": "Tops"
 		},
+		"category-type": "Women > Tops",
 		"img": "/get_product_picture/1",
 		"url": "/product_details/1",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 2,
+		"id": "2",
 		"name": "Men Tshirt",
 		"price": "Rs. 400",
 		"brand": "H&M",
@@ -26,13 +27,14 @@
 			},
 			"category": "Tshirts"
 		},
+		"category-type": "Men >  Tshirts",
 		"img": "/get_product_picture/2",
 		"url": "/product_details/2",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 3,
+		"id": "3",
 		"name": "Sleeveless Dress",
 		"price": "Rs. 1000",
 		"brand": "Madame",
@@ -42,13 +44,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Women > Dress",
 		"img": "/get_product_picture/3",
 		"url": "/product_details/3",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 4,
+		"id": "4",
 		"name": "Stylish Dress",
 		"price": "Rs. 1500",
 		"brand": "Madame",
@@ -58,13 +61,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Women > Dress",
 		"img": "/get_product_picture/4",
 		"url": "/product_details/4",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 5,
+		"id": "5",
 		"name": "Winter Top",
 		"price": "Rs. 600",
 		"brand": "Mast & Harbour",
@@ -74,13 +78,14 @@
 			},
 			"category": "Tops"
 		},
+		"category-type": "Women > Tops",
 		"img": "/get_product_picture/5",
 		"url": "/product_details/5",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 6,
+		"id": "6",
 		"name": "Summer White Top",
 		"price": "Rs. 400",
 		"brand": "H&M",
@@ -90,13 +95,14 @@
 			},
 			"category": "Tops"
 		},
+		"category-type": "Women > Tops",
 		"img": "/get_product_picture/6",
 		"url": "/product_details/6",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 7,
+		"id": "7",
 		"name": "Madame Top For Women",
 		"price": "Rs. 1000",
 		"brand": "Madame",
@@ -106,13 +112,14 @@
 			},
 			"category": "Tops"
 		},
+		"category-type": "Women > Tops",
 		"img": "/get_product_picture/7",
 		"url": "/product_details/7",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 8,
+		"id": "8",
 		"name": "Fancy Green Top",
 		"price": "Rs. 700",
 		"brand": "Polo",
@@ -122,13 +129,14 @@
 			},
 			"category": "Tops"
 		},
+		"category-type": "Women > Tops",
 		"img": "/get_product_picture/8",
 		"url": "/product_details/8",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 11,
+		"id": "11",
 		"name": "Sleeves Printed Top - White",
 		"price": "Rs. 499",
 		"brand": "Babyhug",
@@ -138,13 +146,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/11",
 		"url": "/product_details/11",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 12,
+		"id": "12",
 		"name": "Half Sleeves Top Schiffli Detailing - Pink",
 		"price": "Rs. 359",
 		"brand": "Babyhug",
@@ -154,13 +163,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/12",
 		"url": "/product_details/12",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 13,
+		"id": "13",
 		"name": "Frozen Tops For Kids",
 		"price": "Rs. 278",
 		"brand": "Allen Solly Junior",
@@ -170,13 +180,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/13",
 		"url": "/product_details/13",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 14,
+		"id": "14",
 		"name": "Full Sleeves Top Cherry - Pink",
 		"price": "Rs. 679",
 		"brand": "Kookie Kids",
@@ -186,13 +197,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/14",
 		"url": "/product_details/14",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 15,
+		"id": "15",
 		"name": "Printed Off Shoulder Top - White",
 		"price": "Rs. 315",
 		"brand": "Babyhug",
@@ -202,13 +214,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/15",
 		"url": "/product_details/15",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 16,
+		"id": "16",
 		"name": "Sleeves Top and Short - Blue & Pink",
 		"price": "Rs. 478",
 		"brand": "Babyhug",
@@ -218,13 +231,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Kids > Dress",
 		"img": "/get_product_picture/16",
 		"url": "/product_details/16",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 18,
+		"id": "18",
 		"name": "Little Girls Mr. Panda Shirt",
 		"price": "Rs. 1200",
 		"brand": "Kookie Kids",
@@ -234,13 +248,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/18",
 		"url": "/product_details/18",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 19,
+		"id": "19",
 		"name": "Sleeveless Unicorn Patch Gown - Pink",
 		"price": "Rs. 1050",
 		"brand": "Allen Solly Junior",
@@ -250,13 +265,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Kids > Dress",
 		"img": "/get_product_picture/19",
 		"url": "/product_details/19",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 20,
+		"id": "20",
 		"name": "Cotton Mull Embroidered Dress",
 		"price": "Rs. 1190",
 		"brand": "Kookie Kids",
@@ -266,13 +282,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Kids > Dress",
 		"img": "/get_product_picture/20",
 		"url": "/product_details/20",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 21,
+		"id": "21",
 		"name": "Blue Cotton Indie Mickey Dress",
 		"price": "Rs. 1530",
 		"brand": "Biba",
@@ -282,13 +299,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Kids > Dress",
 		"img": "/get_product_picture/21",
 		"url": "/product_details/21",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 22,
+		"id": "22",
 		"name": "Long Maxi Tulle Fancy Dress Up Outfits -Pink",
 		"price": "Rs. 1600",
 		"brand": "Biba",
@@ -298,13 +316,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Kids > Dress",
 		"img": "/get_product_picture/22",
 		"url": "/product_details/22",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 23,
+		"id": "23",
 		"name": "Sleeveless Unicorn Print Fit & Flare Net Dress - Multi",
 		"price": "Rs. 1100",
 		"brand": "Biba",
@@ -314,13 +333,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Kids > Dress",
 		"img": "/get_product_picture/23",
 		"url": "/product_details/23",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 24,
+		"id": "24",
 		"name": "Colour Blocked Shirt – Sky Blue",
 		"price": "Rs. 849",
 		"brand": "Allen Solly Junior",
@@ -330,13 +350,14 @@
 			},
 			"category": "Tops & Shirts"
 		},
+		"category-type": "Kids > Tops & Shirts",
 		"img": "/get_product_picture/24",
 		"url": "/product_details/24",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 28,
+		"id": "28",
 		"name": "Pure Cotton V-Neck T-Shirt",
 		"price": "Rs. 1299",
 		"brand": "H&M",
@@ -346,13 +367,14 @@
 			},
 			"category": "Tshirts"
 		},
+		"category-type": "Men >  Tshirts",
 		"img": "/get_product_picture/28",
 		"url": "/product_details/28",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 29,
+		"id": "29",
 		"name": "Green Side Placket Detail T-Shirt",
 		"price": "Rs. 1000",
 		"brand": "Polo",
@@ -362,13 +384,14 @@
 			},
 			"category": "Tshirts"
 		},
+		"category-type": "Men >  Tshirts",
 		"img": "/get_product_picture/29",
 		"url": "/product_details/29",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 30,
+		"id": "30",
 		"name": "Premium Polo T-Shirts",
 		"price": "Rs. 1500",
 		"brand": "Polo",
@@ -378,13 +401,14 @@
 			},
 			"category": "Tshirts"
 		},
+		"category-type": "Men >  Tshirts",
 		"img": "/get_product_picture/30",
 		"url": "/product_details/30",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 31,
+		"id": "31",
 		"name": "Pure Cotton Neon Green Tshirt",
 		"price": "Rs. 850",
 		"brand": "H&M",
@@ -394,13 +418,14 @@
 			},
 			"category": "Tshirts"
 		},
+		"category-type": "Men >  Tshirts",
 		"img": "/get_product_picture/31",
 		"url": "/product_details/31",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 33,
+		"id": "33",
 		"name": "Soft Stretch Jeans",
 		"price": "Rs. 799",
 		"brand": "Polo",
@@ -410,13 +435,14 @@
 			},
 			"category": "Jeans"
 		},
+		"category-type": "Men > Jeans",
 		"img": "/get_product_picture/33",
 		"url": "/product_details/33",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 35,
+		"id": "35",
 		"name": "Regular Fit Straight Jeans",
 		"price": "Rs. 1200",
 		"brand": "H&M",
@@ -426,13 +452,14 @@
 			},
 			"category": "Jeans"
 		},
+		"category-type": "Men > Jeans",
 		"img": "/get_product_picture/35",
 		"url": "/product_details/35",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 37,
+		"id": "37",
 		"name": "Grunt Blue Slim Fit Jeans",
 		"price": "Rs. 1400",
 		"brand": "Polo",
@@ -442,13 +469,14 @@
 			},
 			"category": "Jeans"
 		},
+		"category-type": "Men > Jeans",
 		"img": "/get_product_picture/37",
 		"url": "/product_details/37",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 38,
+		"id": "38",
 		"name": "Rose Pink Embroidered Maxi Dress",
 		"price": "Rs. 2300",
 		"brand": "Madame",
@@ -458,13 +486,14 @@
 			},
 			"category": "Dress"
 		},
+		"category-type": "Women > Dress",
 		"img": "/get_product_picture/38",
 		"url": "/product_details/38",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 39,
+		"id": "39",
 		"name": "Cotton Silk Hand Block Print Saree",
 		"price": "Rs. 3000",
 		"brand": "Biba",
@@ -474,13 +503,14 @@
 			},
 			"category": "Saree"
 		},
+		"category-type": "Women > Saree",
 		"img": "/get_product_picture/39",
 		"url": "/product_details/39",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 40,
+		"id": "40",
 		"name": "Rust Red Linen Saree",
 		"price": "Rs. 3500",
 		"brand": "Biba",
@@ -490,13 +520,14 @@
 			},
 			"category": "Saree"
 		},
+		"category-type": "Women > Saree",
 		"img": "/get_product_picture/40",
 		"url": "/product_details/40",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 41,
+		"id": "41",
 		"name": "Beautiful Peacock Blue Cotton Linen Saree",
 		"price": "Rs. 5000",
 		"brand": "Madame",
@@ -506,13 +537,14 @@
 			},
 			"category": "Saree"
 		},
+		"category-type": "Women > Saree",
 		"img": "/get_product_picture/41",
 		"url": "/product_details/41",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 42,
+		"id": "42",
 		"name": "Lace Top For Women",
 		"price": "Rs. 1400",
 		"brand": "Mast & Harbour",
@@ -522,13 +554,14 @@
 			},
 			"category": "Tops"
 		},
+		"category-type": "Women > Tops",
 		"img": "/get_product_picture/42",
 		"url": "/product_details/42",
 		"availability": "In Stock",
 		"condition": "New"
 	},
 	{
-		"id": 43,
+		"id": "43",
 		"name": "GRAPHIC DESIGN MEN T SHIRT - BLUE",
 		"price": "Rs. 1389",
 		"brand": "Mast & Harbour",
@@ -538,6 +571,7 @@
 			},
 			"category": "Tshirts"
 		},
+		"category-type": "Men >  Tshirts",
 		"img": "/get_product_picture/43",
 		"url": "/product_details/43",
 		"availability": "In Stock",

@@ -1,0 +1,422 @@
+{
+    "card": {
+        "name": "card",
+        "mainElement": ".product-image-wrapper",
+        "mappingCheckElementObject": [
+            {
+                "name": "orderDetail",
+                "type": "element",
+                "elementName": ".productinfo",
+                "checkElement": [
+                    { 
+                        "key": "img", 
+                        "id": "img", 
+                        "type": "attr|src", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "price", 
+                        "id": "h2", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "name", 
+                        "id": "p", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "id", 
+                        "id": "a", 
+                        "type": "attr|data-product-id", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            },
+            {
+                "name": "orderViewDetail",
+                "type": "element",
+                "elementName": ".choose",
+                "checkElement": [
+                    { 
+                        "key": "url", 
+                        "id": "a", 
+                        "type": "attr|href", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    },
+    "productDetail": {
+        "name": "productDetail",
+        "mainElement": ".product-details",
+        "mappingCheckElementObject": [
+            {
+                "name": "orderImg",
+                "type": "element",
+                "elementName": ".view-product",
+                "checkElement": [
+                    { 
+                        "key": "img", 
+                        "id": "img", 
+                        "type": "attr|src", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            },
+            {
+                "name": "orderDetail",
+                "type": "element",
+                "elementName": ".product-information",
+                "checkElement": [
+                    { 
+                        "key": "name", 
+                        "id": "h2:eq(0)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "category-type", 
+                        "id": "p:eq(0)", 
+                        "type": "text", 
+                        "matchType": "contains", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "price", 
+                        "id": "span:eq(0) span", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "id", 
+                        "id": "input#product_id", 
+                        "type": "attr|value", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "availability", 
+                        "id": "p:eq(1)", 
+                        "type": "text", 
+                        "matchType": "contains", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "condition", 
+                        "id": "p:eq(2)", 
+                        "type": "text", 
+                        "matchType": "contains", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "brand", 
+                        "id": "p:eq(3)", 
+                        "type": "text", 
+                        "matchType": "contains", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    },
+    "shoppingCart": {
+        "name": "shoppingCart",
+        "mainElement": "table#cart_info_table",
+        "mappingCheckElementObject": [
+            {
+                "name": "cartOrderDetail",
+                "type": "table",
+                "elementName": "tbody tr",
+                "checkElement": [
+                    { 
+                        "key": "id", 
+                        "id": "tr", 
+                        "type": "tr|id", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "img", 
+                        "id": "td.cart_product img", 
+                        "type": "table|src", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "name", 
+                        "id": "td.cart_description h4", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "url", 
+                        "id": "td.cart_description a", 
+                        "type": "attr|href", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "category-type", 
+                        "id": "td.cart_description p", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "price", 
+                        "id": "td.cart_price", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "qty", 
+                        "id": "td.cart_quantity", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    },
+    "reviewYourOrder": {
+        "name": "reviewYourOrder",
+        "mainElement": "#cart_info table",
+        "mappingCheckElementObject": [
+            {
+                "name": "cartOrderDetail",
+                "type": "table",
+                "elementName": "tbody tr",
+                "checkElement": [
+                    { 
+                        "key": "id", 
+                        "id": "tr", 
+                        "type": "tr|id", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "img", 
+                        "id": "td.cart_product img", 
+                        "type": "table|src", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "name", 
+                        "id": "td.cart_description h4", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "url", 
+                        "id": "td.cart_description a", 
+                        "type": "attr|href", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "category-type", 
+                        "id": "td.cart_description p", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "price", 
+                        "id": "td.cart_price", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "qty", 
+                        "id": "td.cart_quantity", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "orderTotal", 
+                        "id": "td.cart_total", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    },
+    "reviewYourOrderSummaryTotal": {
+        "name": "reviewYourOrder",
+        "mainElement": "#cart_info table",
+        "mappingCheckElementObject": [
+            {
+                "name": "cartOrderTotal",
+                "type": "element",
+                "elementName": "tbody tr:last-child",
+                "checkElement": [
+                    { 
+                        "key": "orderSummaryTotal", 
+                        "id": "td p.cart_total_price", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    },
+    "deliveryAddress": {
+        "name": "Delivery Address",
+        "mainElement": ".checkout-information",
+        "mappingCheckElementObject": [
+            {
+                "name": "Your delivery address",
+                "type": "element",
+                "elementName": "ul#address_delivery",
+                "checkElement": [
+                    { 
+                        "key": "title", 
+                        "id": "li.address_firstname", 
+                        "type": "text", 
+                        "matchType": "startsWith", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "name", 
+                        "id": "li.address_firstname", 
+                        "type": "text", 
+                        "matchType": "endsWith", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "company", 
+                        "id": "li.address_address1:eq(0)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "address", 
+                        "id": "li.address_address1:eq(1)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "address2", 
+                        "id": "li.address_address1:eq(2)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "city-state-zipcode", 
+                        "id": "li.address_city", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "country", 
+                        "id": "li.address_country_name", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "mobile", 
+                        "id": "li.address_phone", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    },
+    "billingAddress": {
+        "name": "Billing Address",
+        "mainElement": ".checkout-information",
+        "mappingCheckElementObject": [
+            {
+                "name": "Your billing address",
+                "type": "element",
+                "elementName": "ul#address_invoice",
+                "checkElement": [
+                    { 
+                        "key": "title", 
+                        "id": "li.address_firstname", 
+                        "type": "text", 
+                        "matchType": "startsWith", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "name", 
+                        "id": "li.address_firstname", 
+                        "type": "text", 
+                        "matchType": "endsWith", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "company", 
+                        "id": "li.address_address1:eq(0)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "address", 
+                        "id": "li.address_address1:eq(1)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "address2", 
+                        "id": "li.address_address1:eq(2)", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "city-state-zipcode", 
+                        "id": "li.address_city", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "country", 
+                        "id": "li.address_country_name", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    },
+                    { 
+                        "key": "mobile", 
+                        "id": "li.address_phone", 
+                        "type": "text", 
+                        "matchType": "equal", 
+                        "toLowerCase": false 
+                    }
+                ]
+            }
+        ]
+    }
+}

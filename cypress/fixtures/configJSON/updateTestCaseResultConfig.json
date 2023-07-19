@@ -5,6 +5,20 @@
             "type": "testResultObject-massage", 
             "setValue": "errorMessage",
             "checkValue": ""  
+        },
+        { 
+            "name": "testStatus", 
+            "type": "testResultObject-value", 
+            "setValue": "testStatus",
+            "checkValue": ""  
+        }
+    ],
+    "testStatus": [
+        { 
+            "name": "testStatus", 
+            "type": "testResultObject-value", 
+            "setValue": "testStatus",
+            "checkValue": ""  
         }
     ]
 }

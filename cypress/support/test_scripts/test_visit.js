@@ -2,22 +2,22 @@ import '../commands'
 import { getObjectFromReferenceMappingJson, updateTestCaseResultObject} from '../util'
 
 // 2e2: Test visit by test case loop by form type
-// e.g. formTestCaseArray= [{ type: 'visit', testCaseName: 'visit_01', page: "homepage" }, { type: 'visit', testCaseName: 'visit_02', page: "products" }]
+// e.g. testCasesArray= [{ type: 'visit', testCaseName: 'visit_01', page: "homepage" }, { type: 'visit', testCaseName: 'visit_02', page: "products" }]
 // e.g. writeTestCaseResult, continuedWriteTestCaseResult = true/false
 export const e2eVisitTestScriptsbyTestCase = (options) => {
 
-    const { formTestCaseArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
+    const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
 
     before(() => {
         // Variable: Set testCaseResultVariable's object 1st times
         cy.task('clearTestCaseResultVariable');
     });
     
-    formTestCaseArray.forEach((formTestCase, testIndex) => {
+    testCasesArray.forEach((testCaseDetail, testIndex) => {
         
-        const { type, testCaseName, page } = formTestCase;
+        const { type, testCaseName, page } = testCaseDetail;
     
-        describe(`[Register and login] ${testIndex+1}.${testCaseName}-e2e Test `, () => {
+        describe(`[Visit] ${testIndex+1}.${testCaseName}-e2e Test visit page: ${page} `, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept
@@ -27,14 +27,14 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                 cy.task('clearTempVariables');
             });
     
-            it(`${testIndex+1}.1.${testCaseName}: Start e2e test register and login in website`, () => {
+            it(`${testIndex+1}.1.${testCaseName}: Start e2e test visit in website`, () => {
     
-                cy.log(`++++ ${testCaseName}: Start e2e test register and login in website ++++`);
-                console.log(`++++ ${testCaseName}: Start e2e test register and login in website ++++`);
+                cy.log(`++++ ${testCaseName}: Start e2e test visit in website ++++`);
+                console.log(`++++ ${testCaseName}: Start e2e test visit in website ++++`);
 
                 // Result: Set base test case result to test case result variable 
                 // e.g. result = { testDate: "04/07/2023", testStartTime: "10:52:12", testEndTime: "-", testCase: "login_01", testStatus: "Failed"}
-                cy.setBaseTestCaseResultObject(formTestCase);
+                cy.setBaseTestCaseResultObject(testCase);
     
                 // ++++ Visit home page ++++
                 cy.visitHomepage();
@@ -45,7 +45,7 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                 // ++++ Check visit page element from config ++++
                 cy.checkVisitPageElement({
                     pageName: page,
-                    testCaseDetail: formTestCase
+                    testCaseDetail: testCaseDetail
                 });
             });
 
@@ -55,8 +55,7 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                 it(`${testIndex+1}.2.${testCaseName}: Write Test Case Result To CSV & Show Test Result`, () => {
                     cy.writeTestCaseResultToCSV({
                         type: type,
-                        resultKey: testCaseName, 
-                        testCaseDetail: formTestCase, 
+                        testCaseName: testCaseName, 
                         continuedWriteTestCaseResult: continuedWriteTestCaseResult,
                         testIndex: testIndex 
                     });
@@ -78,48 +77,72 @@ Cypress.Commands.add('checkVisitPageElement', (options) => {
     // pageConfig ={ "menuName": "Home", "menuIcon": "fa-home", "url": "/", "checkElement": [{ "name": "Carousel", "type": "exist", "elementName": "div[id='slider-carousel']" },...]}
     const pageConfig = getObjectFromReferenceMappingJson('websiteMeunConfig', pageName);
 
-    const { checkElement } = pageConfig;
+    const { url, checkElement } = pageConfig;
     
-    // Element: Get body to find check element
-    cy.get('body').then($body => {
+    // URL: Get url to check url case
+    cy.url().then(pageURL => {
 
-        let checkElementError = [];
-        const headerMessage = `Page ${pageConfig['menuName']}: `;
+        cy.log('url: ' + pageURL);
 
-        // Loop check element in page
-        checkElement.forEach(checkEle => {
+        // Element: Get body to find check element
+        // Note: For page 'video_tutorials' not check elememt because is in youtube page need to  
+        cy.get('body').then($body => {
+
+            let checkElementError = [];
+            const headerMessage = `Page ${pageConfig['menuName']}: `;
             
-            const { name, type, elementName } = checkEle;
-            let testResult = 'Pass';
-            let message = '';
+            // Set checkUrl if pageName is not 'video_tutorials', add baseUrl at front
+            const checkURL = pageName === 'video_tutorials' ? url : Cypress.config('baseUrl') + url;
 
-            // Check Element by type
-            switch(type) {
-                case 'exist':
-                    // exist: Check element is exist on page, if not push errorMassage
-                    // cy.get(elementName).should('be.exist'); // DEBUG ONLY
-                    if( $body.find(elementName).length === 0) {
-                        testResult = 'Failed'
-                        checkElementError.push(`Element ${name} is not exist`);
-                    } 
-                    message = `Element[${name}] ${testResult === 'Pass' ? ' IS ' : ' IS NOT ' } exist`
-                    break;
+            // url: Check url of this page, if not same as checkURL then push errorMassage
+            if(checkURL !== pageURL) {
+                checkElementError.push(`URL is ${pageURL} NOT ${checkURL}`);
             }
+            cy.log(headerMessage + `URL is ${pageURL}:${checkURL}`);
 
-            cy.log(headerMessage + message);
-            console.log(headerMessage + message);
-        })
+            // Loop check element in page
+            checkElement.forEach(checkEle => {
+                
+                const { name, type, elementName } = checkEle;
+                let testResult = 'Pass';
+                let message = '';
 
-        // If has checkElementError, update errorMessage to test case result variable
-        if(checkElementError.length > 0) {
-            cy.updateTestCaseResultObject({
-                testCaseDetail: testCaseDetail, 
-                type: 'errorMessage',
-                testResultObject: {
-                    errorMessage: headerMessage + checkElementError.join(', ')
+                // Check Element by type
+                switch(type) {
+                    case 'exist':
+                        // exist: Check element is exist on page, if not exist then push errorMassage
+                        // cy.get(elementName).should('be.exist'); // DEBUG ONLY
+                        if( $body.find(elementName).length === 0) {
+                            testResult = 'Failed'
+                            checkElementError.push(`Element ${name} is not exist`);
+                        } 
+                        message = `Element[${name}] ${testResult === 'Pass' ? ' IS ' : ' IS NOT ' } exist`
+                        break;
                 }
-            });
-        }
-    })
+                cy.log(headerMessage + message);
+                console.log(headerMessage + message);
+            })
+
+            // If has checkElementError, update errorMessage to test case result variable
+            if(checkElementError.length > 0) {
+                cy.updateTestCaseResultObject({
+                    testCaseDetail: testCaseDetail, 
+                    type: 'errorMessage',
+                    testResultObject: {
+                        errorMessage: headerMessage + checkElementError.join(', '),
+                        testStatus: 'Failed'
+                    }
+                });
+            } else {
+                cy.updateTestCaseResultObject({
+                    testCaseDetail: testCaseDetail, 
+                    type: 'testStatus',
+                    testResultObject: {
+                        testStatus: 'Pass'
+                    }
+                });
+            }
+        })
+    });
 });
 

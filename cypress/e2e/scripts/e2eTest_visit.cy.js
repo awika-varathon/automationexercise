@@ -26,7 +26,7 @@ const writeTestCaseResult = true;
 const continuedWriteTestCaseResult = false;
 
 e2eVisitTestScriptsbyTestCase ({
-    formTestCaseArray: e2eTestCaseArray, 
+    testCasesArray: e2eTestCaseArray, 
     writeTestCaseResult: writeTestCaseResult, 
     continuedWriteTestCaseResult: continuedWriteTestCaseResult,
 });

@@ -29,7 +29,7 @@ describe(`[Get Data] Get all products data from product page or api`, () => {
             // if(index < 1) { // DEBUG ONLY
                 // Card: Get product's detail from card (Note: Easily than view product page)
                 // Product: id
-                productObject['id'] = index+1;
+                productObject['id'] = (index+1).toString();
 
                 // Product: name
                 // <p>Blue Top</p>
@@ -57,6 +57,7 @@ describe(`[Get Data] Get all products data from product page or api`, () => {
                     const category = $info.find('p:contains("Category:")').text().split('Category: ').pop();
                     productObject['product'] = category.split(' > ').shift();
                     productObject['category'] = category.split(' > ').pop();
+                    productObject['category-type'] = category;
 
                     // Product: availability
                     // <p><b>Availability:</b> In Stock</p>

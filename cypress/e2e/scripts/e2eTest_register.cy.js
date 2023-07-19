@@ -4,9 +4,12 @@ import { e2eRegisterAndLoginTestScriptsbyTestCase } from '../../support/test_scr
 // Set test case array, testCase has to has same name in testCase's criteria sheet
 // Signup = 'reg_00' (case default), 'reg_01', 'reg_02'
 const e2eTestCaseArray = [
-    { type: 'register',   testCaseName: 'reg_01' },
+    // { type: 'register',   testCaseName: 'reg_01' },
     // { type: 'register',   testCaseName: 'reg_02' },
     // { type: 'register',   testCaseName: 'reg_03' },
+    // { type: 'register',   testCaseName: 'reg_04' },
+    { type: 'register',   testCaseName: 'reg_05' },
+    { type: 'register',   testCaseName: 'reg_06' },
 ];
 
 // Set want to write test case result in CSV or not
@@ -20,7 +23,7 @@ const writeTestCaseResult = true;
 const continuedWriteTestCaseResult = false;
 
 e2eRegisterAndLoginTestScriptsbyTestCase ({
-    formTestCaseArray: e2eTestCaseArray, 
+    testCasesArray: e2eTestCaseArray, 
     writeTestCaseResult: writeTestCaseResult, 
     continuedWriteTestCaseResult: continuedWriteTestCaseResult,
 });

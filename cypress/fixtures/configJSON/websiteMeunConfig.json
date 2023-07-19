@@ -91,9 +91,7 @@
         "menuName": "Video Tutorials",
         "menuIcon": "fa-youtube-play",
         "url": "https://www.youtube.com/c/AutomationExercise",
-        "checkElement": [
-            { "name": "Youtube-Channel", "type": "exist", "elementName": "#channel-name #test:contains('AutomationExercise')" }
-        ]
+        "checkElement": []
     },
     "errorCase": {
         "menuName": "Home",

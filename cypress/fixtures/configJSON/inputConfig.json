@@ -227,6 +227,61 @@
             }
         ]
     },
+    "payment": {
+        "formcriteria": [
+            {
+                "name": "cardName",
+                "formTitle": "Name on Card",
+                "elementName": "[data-qa='name-on-card']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "cardNumber",
+                "formTitle": "Card Number",
+                "elementName": "[data-qa='card-number']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "cardCvc",
+                "formTitle": "CVC",
+                "elementName": "[data-qa='cvc']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "cardExMonth",
+                "formTitle": "Expiration(Month)",
+                "elementName": "[data-qa='expiry-month']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            },
+            {
+                "name": "cardExYear",
+                "formTitle": "Expiration(Year)",
+                "elementName": "[data-qa='expiry-year']",
+                "formType": "input",
+                "howToFilled": "type",
+                "elementDisplay": "enable",
+                "defaultValue": [],
+                "isRequiredField": "requierd"
+            }
+            
+        ]
+    },
     "subscription": {
         "elementAttr": "id",
         "formcriteria":  [

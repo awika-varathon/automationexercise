@@ -7,6 +7,9 @@ const e2eTestCaseArray = [
     { type: 'login',    testCaseName: 'login_01' },
     { type: 'login',    testCaseName: 'login_02' },
     { type: 'login',    testCaseName: 'login_03' },
+    { type: 'login',    testCaseName: 'login_04' },
+    { type: 'login',    testCaseName: 'login_05' },
+    { type: 'login',    testCaseName: 'login_06' },
 ];
 
 // Set want to write test case result in CSV or not
@@ -20,7 +23,7 @@ const writeTestCaseResult = true;
 const continuedWriteTestCaseResult = false;
 
 e2eRegisterAndLoginTestScriptsbyTestCase ({
-    formTestCaseArray: e2eTestCaseArray, 
+    testCasesArray: e2eTestCaseArray, 
     writeTestCaseResult: writeTestCaseResult, 
     continuedWriteTestCaseResult: continuedWriteTestCaseResult,
 });

@@ -5,14 +5,21 @@ import { e2eOrderTestScriptsbyTestCase } from '../../support/test_scripts/test_e
 // order = 'order_01', 'order_02', 'order_03'
 const e2eTestCaseArray = [
     { type: 'e2eOrder',    testCaseName: 'order_01' },
-    // { type: 'e2eOrder',    testCaseName: 'order_05' },
-    // { type: 'e2eOrder',    testCaseName: 'order_03' },
+    { type: 'e2eOrder',    testCaseName: 'order_02' },
+    { type: 'e2eOrder',    testCaseName: 'order_03' },
+    { type: 'e2eOrder',    testCaseName: 'order_04' },
+    { type: 'e2eOrder',    testCaseName: 'order_05' },
+    { type: 'e2eOrder',    testCaseName: 'order_06' },
+    { type: 'e2eOrder',    testCaseName: 'order_07' },
+    { type: 'e2eOrder',    testCaseName: 'order_08' },
+    { type: 'e2eOrder',    testCaseName: 'order_09' },
+    { type: 'e2eOrder',    testCaseName: 'order_10' }
 ];
 
 // Set want to write test case result in CSV or not
 // If set as false will not write test case result in CSV
-// const writeTestCaseResult = true;
-const writeTestCaseResult = false;
+const writeTestCaseResult = true;
+// const writeTestCaseResult = false;
 
 // Set want to coutinue write test case result in CSV or not
 // If set as false will clear and rewrite test case result in CSV
@@ -20,7 +27,7 @@ const writeTestCaseResult = false;
 const continuedWriteTestCaseResult = false;
 
 e2eOrderTestScriptsbyTestCase ({
-    formTestCaseArray: e2eTestCaseArray, 
+    testCasesArray: e2eTestCaseArray, 
     writeTestCaseResult: writeTestCaseResult, 
     continuedWriteTestCaseResult: continuedWriteTestCaseResult,
 });

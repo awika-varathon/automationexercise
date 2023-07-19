@@ -2,20 +2,20 @@ import '../commands'
 import { getReferenceMappingJson, filledFormElementVauleBycriteria } from '../util'
 
 // 2e2: Test register and login by test case loop by form type
-// e.g. formTestCaseArray= [{ type: 'login', testCase: 'login_01' }, { type: 'register', testCase: 'reg_01' }]
+// e.g. testCasesArray= [{ type: 'login', testCase: 'login_01' }, { type: 'register', testCase: 'reg_01' }]
 // e.g. writeTestCaseResult, continuedWriteTestCaseResult = true/false
 export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
 
-    const { formTestCaseArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
+    const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
 
     before(() => {
         // Variable: Set testCaseResultVariable's object 1st times
         cy.task('clearTestCaseResultVariable');
     });
     
-    formTestCaseArray.forEach((formTestCase, testIndex) => {
+    testCasesArray.forEach((testCaseDetail, testIndex) => {
         
-        const { type, testCaseName } = formTestCase;
+        const { type, testCaseName } = testCaseDetail;
     
         describe(`[Register and login] ${testIndex+1}.${testCaseName}-e2e Test `, () => {
           
@@ -34,7 +34,7 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
 
                 // Result: Set base test case result to test case result variable 
                 // e.g. result = { testDate: "04/07/2023", testStartTime: "10:52:12", testEndTime: "-", testCase: "login_01", testStatus: "Failed"}
-                cy.setBaseTestCaseResultObject(formTestCase);
+                cy.setBaseTestCaseResultObject(testCaseDetail);
     
                 // Variable: Set test case's criteria and base
                 // Excel: Get test case's criteria from excel by test case's name and set to test case criteria variable 
@@ -46,9 +46,6 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                 // ++++ Visit home page ++++
                 cy.visitHomepage();
     
-                // ++++ Visit Signup / Login page ++++
-                cy.visitPageFromClickMenu('login');
-    
                 // ++++ Register and login ++++
                 // Do action of register And login test case from test case criteria variable
                 // criteria: Get test case criteria from test case criteria variable by testCaseName
@@ -59,7 +56,23 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                     cy.log(`++++ ${testCaseName}: Do action - ${criteria['action']} ++++`);
                     console.log(`++++ ${testCaseName}: Do action ${criteria['action']} ++++`);
                     console.log(`getTempVariable: ${testCaseName}`, testCasecriteria);
+
+                    // ONLY: test case 'reg_06' delete account first before signup
+                    if(testCaseName === 'reg_06') {
+                        // ++++ Visit Signup / Login page ++++
+                        cy.visitPageFromClickMenu('login');
+
+                        // login: login with criteria & check login message
+                        cy.loginWebsite({
+                            'login|email': criteria['login|email'],
+                            'login|password': criteria['signup|password']
+                        });
+                        cy.deleteAccountFromClickMenu();
+                    }
     
+                    // ++++ Visit Signup / Login page ++++
+                    cy.visitPageFromClickMenu('login');
+
                     // Do Action: Do action of register and login test case
                     switch(criteria['action']){
                         case 'login':
@@ -88,6 +101,15 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                             }
                             break;
                     }
+
+                    // Update test case result variable to 'Pass' if can finish test till this step
+                    cy.updateTestCaseResultObject({
+                        testCaseDetail: testCaseDetail, 
+                        type: 'testStatus',
+                        testResultObject: {
+                            testStatus: 'Pass'
+                        }
+                    });
                 });
             });
 
@@ -97,8 +119,7 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                 it(`${testIndex+1}.2.${testCaseName}: Write Test Case Result To CSV & Show Test Result`, () => {
                     cy.writeTestCaseResultToCSV({
                         type: type,
-                        resultKey: testCaseName, 
-                        testCaseDetail: formTestCase, 
+                        testCaseName: testCaseName, 
                         continuedWriteTestCaseResult: continuedWriteTestCaseResult,
                         testIndex: testIndex 
                     });
