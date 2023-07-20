@@ -9,10 +9,15 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "cypress": "^10.9.0"
+    "cypress": "^10.9.0",
+    "cypress-slow-down": "^1.2.1"
   },
   "scripts": {
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "e2eOrder": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_e2eOrder.cy.js'",
+    "login": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_login.cy.js'",
+    "register": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_register.cy.js'",
+    "visit": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_visit.cy.js'"
   },
   "repository": {
     "type": "git",

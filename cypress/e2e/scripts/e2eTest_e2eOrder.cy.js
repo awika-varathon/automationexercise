@@ -1,8 +1,8 @@
 import { e2eOrderTestScriptsbyTestCase } from '../../support/test_scripts/test_e2eOrder'
 
-// ++++ Test 2e2 order by test case ++++
-// Set test case array, testCase has to has same name in testCase's criteria sheet
-// order = 'order_01', 'order_02', 'order_03'
+// ++++ Test e2e order by test cases ++++
+// Set test cases array of test cases e2e order
+// Note: Key 'testCaseName', value has to be set as same as the sheet name in file 'fixtures/testCaseCriteria/testCaseCriteria_e2eOrder.xlsx' which gets criteria from that sheet
 const e2eTestCaseArray = [
     { type: 'e2eOrder',    testCaseName: 'order_01' },
     { type: 'e2eOrder',    testCaseName: 'order_02' },
@@ -18,8 +18,8 @@ const e2eTestCaseArray = [
 
 // Set want to write test case result in CSV or not
 // If set as false will not write test case result in CSV
-const writeTestCaseResult = true;
-// const writeTestCaseResult = false;
+// const writeTestCaseResult = true;
+const writeTestCaseResult = false;
 
 // Set want to coutinue write test case result in CSV or not
 // If set as false will clear and rewrite test case result in CSV

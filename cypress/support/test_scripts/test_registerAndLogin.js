@@ -1,12 +1,16 @@
 import '../commands'
-import { getReferenceMappingJson, filledFormElementVauleBycriteria } from '../util'
+import { slowCypressDown } from 'cypress-slow-down'
 
-// 2e2: Test register and login by test case loop by form type
-// e.g. testCasesArray= [{ type: 'login', testCase: 'login_01' }, { type: 'register', testCase: 'reg_01' }]
+// 2e2: Test register and login loop by test cases 
+// e.g. testCasesArray = [{ type: 'login', testCaseName: 'login_01' }, ...] 
+// e.g. testCasesArray = [{ type: 'register', testCase: 'reg_01' }, ...]
 // e.g. writeTestCaseResult, continuedWriteTestCaseResult = true/false
 export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
 
-    const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
+    const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult } = options;
+
+    // Slow test cypress down for recording video when runs command 'cypress run' 
+    slowCypressDown();
 
     before(() => {
         // Variable: Set testCaseResultVariable's object 1st times
@@ -36,7 +40,7 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                 // e.g. result = { testDate: "04/07/2023", testStartTime: "10:52:12", testEndTime: "-", testCase: "login_01", testStatus: "Failed"}
                 cy.setBaseTestCaseResultObject(testCaseDetail);
     
-                // Variable: Set test case's criteria and base
+                // Variable: Set test case's criteria
                 // Excel: Get test case's criteria from excel by test case's name and set to test case criteria variable 
                 cy.setTestCasecriteriaVariableFromExcel({
                     testCaseType: type,
@@ -47,7 +51,7 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                 cy.visitHomepage();
     
                 // ++++ Register and login ++++
-                // Do action of register And login test case from test case criteria variable
+                // Do action of register or login test case from test case criteria variable
                 // criteria: Get test case criteria from test case criteria variable by testCaseName
                 cy.task('getTempVariable', { name: `testCasecriteria_${testCaseName}` }).then(testCasecriteria => {
     
@@ -57,17 +61,17 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                     console.log(`++++ ${testCaseName}: Do action ${criteria['action']} ++++`);
                     console.log(`getTempVariable: ${testCaseName}`, testCasecriteria);
 
-                    // ONLY: test case 'reg_06' delete account first before signup
+                    // User: Deleted user before test 'reg_06' test cases
+                    // Note: 'reg_06' is error test case which after create new account will return error and account will be still exist. Before run test 'reg_06' test case has to check user is exist or not and delete this account first.
                     if(testCaseName === 'reg_06') {
-                        // ++++ Visit Signup / Login page ++++
-                        cy.visitPageFromClickMenu('login');
-
-                        // login: login with criteria & check login message
-                        cy.loginWebsite({
-                            'login|email': criteria['login|email'],
-                            'login|password': criteria['signup|password']
-                        });
-                        cy.deleteAccountFromClickMenu();
+                        cy.clearUserFromUserconfig('userObject', {
+                            "username": {
+                                "userType": "signup",
+                                "keys": "username",
+                                "email": criteria['signup|email'],
+                                "password": criteria['signup|password']
+                            }
+                        })
                     }
     
                     // ++++ Visit Signup / Login page ++++
@@ -102,6 +106,8 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                             break;
                     }
 
+                    cy.wait(2000); // Wait for recording video
+
                     // Update test case result variable to 'Pass' if can finish test till this step
                     cy.updateTestCaseResultObject({
                         testCaseDetail: testCaseDetail, 
@@ -125,7 +131,6 @@ export const e2eRegisterAndLoginTestScriptsbyTestCase = (options) => {
                     });
                 });
             }
-    
         });
     });
 };

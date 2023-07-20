@@ -1,5 +1,6 @@
 {
   "automatedUser": {
+    "keys": "automatedUser",
     "userType": "login",
     "title": "Mr.",
     "name": "Automated Test",
@@ -22,6 +23,7 @@
     "mobile": "00000000001"
   },
   "orderUser": {
+    "keys": "orderUser",
     "userType": "signup",
     "title": "Mr.",
     "name": "Automated Order",
@@ -44,6 +46,7 @@
     "mobile": "987654321"
   },
   "noCompanyUser": {
+    "keys": "noCompanyUser",
     "userType": "signup",
     "title": "Mrs.",
     "name": "Automated Nocompany",

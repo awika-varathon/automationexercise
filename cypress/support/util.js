@@ -82,7 +82,7 @@ export const filledFormElementVauleBycriteria = (options) => {
 
 ///////////////////////////////////////////
 // ++++ Checking Element Value ++++
-// Checking: Loop check product detail from element value is equal order detail or not which each main element has different check element so need to set check element's id and order detail object's key
+// Checking: Loop checkElement whic element's value is equal criteria or not which each main element has different check element so need to set check element's id and order detail object's key
 export const loopCheckElementAndCompareValues = ($ele, checkElement, criteria) => {
 
     // Loop check product detail from element value is equal order detail
@@ -112,7 +112,7 @@ export const loopCheckElementAndCompareValues = ($ele, checkElement, criteria) =
                 // console.log('Attr')
                 break;
             case element['type'] === 'tr|id':
-                // If element's type is 'tr|id', get id for tr which is $ele level to get product's id
+                // If element's type is 'tr|id', get id from tr which is $ele level to get product's id
                 // e.g. $ele = <tr id="product-1"> => 'product-1' => '1'
                 elementValue = $ele.attr('id').replace('product-', '');
                 break;

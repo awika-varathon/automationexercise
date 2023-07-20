@@ -1,5 +1,6 @@
 import '../commands'
-import { getObjectFromReferenceMappingJson, updateTestCaseResultObject} from '../util'
+import { slowCypressDown } from 'cypress-slow-down'
+import { getObjectFromReferenceMappingJson } from '../util'
 
 // 2e2: Test visit by test case loop by form type
 // e.g. testCasesArray= [{ type: 'visit', testCaseName: 'visit_01', page: "homepage" }, { type: 'visit', testCaseName: 'visit_02', page: "products" }]
@@ -7,6 +8,9 @@ import { getObjectFromReferenceMappingJson, updateTestCaseResultObject} from '..
 export const e2eVisitTestScriptsbyTestCase = (options) => {
 
     const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
+
+    // Slow test cypress down for recording video when runs command 'cypress run' 
+    slowCypressDown();
 
     before(() => {
         // Variable: Set testCaseResultVariable's object 1st times
@@ -34,7 +38,7 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
 
                 // Result: Set base test case result to test case result variable 
                 // e.g. result = { testDate: "04/07/2023", testStartTime: "10:52:12", testEndTime: "-", testCase: "login_01", testStatus: "Failed"}
-                cy.setBaseTestCaseResultObject(testCase);
+                cy.setBaseTestCaseResultObject(testCaseDetail);
     
                 // ++++ Visit home page ++++
                 cy.visitHomepage();
@@ -47,6 +51,8 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                     pageName: page,
                     testCaseDetail: testCaseDetail
                 });
+
+                cy.wait(2000); // Wait for recording video
             });
 
             // Result: Write this test case results to CSV from test case result variable 
@@ -61,7 +67,6 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                     });
                 });
             }
-    
         });
     });
 };

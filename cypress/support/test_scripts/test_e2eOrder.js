@@ -1,5 +1,5 @@
 import '../commands'
-import { getReferenceMappingJson, filledFormElementVauleBycriteria } from '../util'
+import { slowCypressDown } from 'cypress-slow-down'
 
 // 2e2: Test order by test case loop by form type
 // e.g. testCasesArray= [{ type: 'login', testCase: 'login_01' }, { type: 'register', testCase: 'reg_01' }]
@@ -8,12 +8,14 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
 
     const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
 
+    slowCypressDown();
+
     before(() => {
         // Variable: Set testCaseResultVariable's object 1st times
         cy.task('clearTestCaseResultVariable');
     });
 
-    // // [DEBUG ONLY] User: Loop clear userType|login's cart and deleted userType|signup from userConfig.json before test e2e order test cases
+    // [DEBUG ONLY] User: Loop clear userType|login's cart and deleted userType|signup from userConfig.json before test e2e order test cases
     // describe(`User: Clear user|login cart and deleted user|signup from userConfig.json`, () => {
 
     //     it('User: Clear user|login cart and deleted user|signup from userConfig.json', () => {
@@ -25,7 +27,7 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
     //         cy.visitHomepage();
 
     //         // User: Loop clear userType|login's cart and deleted userType|signup from userConfig.json before test e2e order test cases
-    //         cy.clearUserFromUserconfig('all');
+    //         cy.clearUserFromUserconfig('allConfig');
     //     });
     // })
     
@@ -131,8 +133,8 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
                                     cy.searchProductFromSearchbox(order['name']);
                                     break
                                 case order['orderFromSection'] === 'recommended': 
-                                    // Recommended: scrolldown to bottom to recommended section (home page only)
-                                    cy.scrollTo('bottom');
+                                    // Recommended: scrolldown to recommended section (home page only)
+                                    cy.get('.recommended_items').scrollIntoView();
                                     break;
                             }
 
@@ -264,6 +266,8 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
                             }
                         }
                     } 
+
+                    cy.wait(2000); // Wait for recording video
 
                     // Update test case result variable to 'Pass' if can finish test till this step
                     cy.updateTestCaseResultObject({

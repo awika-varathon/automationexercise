@@ -87,7 +87,7 @@ Cypress.Commands.add('setTestCasecriteriaVariableFromExcel', (options) => {
 
 });
 
-// Excel: Get order test case's criteria from excel by test case's name and set to test case criteria variable 
+// Excel: Get e2e order test case's criteria from excel by test case's name and set to test case criteria variable 
 Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
     const { testCaseName, testCaseType } = options;
 
@@ -133,25 +133,18 @@ Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
                 // e.g. loginConfig = ['firstLogin','default']
                 const loginConfig = row['loginOrSignup'].split('|');
 
-                // loginOrSignup: Set action of login or signup and set to main level object to check if signup then delete at the end
+                // loginOrSignup: Set action of login or signup and set to main level object to check if action is signup has to delete account at the end of test.
                 // first(Login/Signup before order): 'firstLogin', 'firstSignup'
                 // cart(Login/Signup after order): 'cartLogin', 'cartSignup' 
                 orderList['loginOrSignup'] = loginConfig[0];
                 testCasecriteria['loginOrSignup'] = loginConfig[0];
 
-                // UserInfo: Get user info from username and set key in user info
+                // UserInfo: Get user info from userConfig.json by username
                 // e.g. testCasecriteria['userInfo'] = { "title": "Mr.", "name": "Automated Test", "email": "automated.test@mail.com", "password": "automatedTest", "day": 1, "month": "January",...}
                 testCasecriteria['userInfo'] = getObjectFromReferenceMappingJson('userConfig', loginConfig[1]);
-                testCasecriteria['userInfo']['keys'] = loginConfig[1];
-                
             }
 
-            // Checkout: If this order 'ProceedToCheckoutFrom' is not undefined, then do 'Proceed to checkout' at this order
-            if(row['ProceedToCheckoutFrom'] !== undefined){
-                orderList['ProceedToCheckoutFrom'] = row['ProceedToCheckoutFrom']
-            }
-
-            // Check Order: Set check order to check afer do action of this order which need to refer from latest checkOrders 
+            // Check Order: Set check order to check afer do action of this order which has to refer from latest checkOrders 
             if(i === 0) {
                 // 1st Order: 1st Order Set check order and orderSummary as this order 
                 // checkOrders: Set check order as this order 
@@ -163,6 +156,7 @@ Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
             } else {
 
                 // Clone latest checkOrder from latest order in array to set new checkOrders
+                // Note: Has to use JSON.parse(JSON.stringify()); method when update new checkOrders object won't update back to latest order object 
                 // e.g. latestCheckOrder = [{action: 'add', orderNo: 1, name: 'Blue Top', qty: 1, orderFromPage:, ...]
                 // console.log('lastCheckOrders', orderListsArray[i-1]['checkOrders']);
                 const latestCheckOrders = JSON.parse(JSON.stringify(orderListsArray[i-1]['checkOrders']));
@@ -179,28 +173,27 @@ Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
                         orderSummaryTotal +=  Number((orderList['order']['orderTotal']).replace('Rs. ', ''));
                         break;
                     case 'addOn':
-
-                        // Get indexOf order that have to update qty and order total from latestCheckOrders by 'orderNo'
+                        // addOn: Get indexOf order that have to update qty and order total from latestCheckOrders by 'orderNo'
                         // Note: This website, if buys same product will work as add on order so for action 'addOn' in criteria value sets orderNo refer to adding order of easier to update qty and order total.
                         orderLineNo = latestCheckOrders.findIndex(latest => latest['orderNo'] === orderList['order']['orderNo'])
+                        // console.log(latestCheckOrders);
+                        // console.log(orderLineNo);
+                        // console.log(latestCheckOrders[orderLineNo]);
 
-                        console.log(latestCheckOrders);
-                        console.log(orderLineNo);
-                        console.log(latestCheckOrders[orderLineNo]);
-
-                        // Update qty and order total to order in latestCheckOrders 
+                        // qty: Update order's qty to the same order in latestCheckOrders by indexOf order
                         latestCheckOrders[orderLineNo]['qty'] = (Number(latestCheckOrders[orderLineNo]['qty']) +  Number(orderList['order']['qty'])).toString();
+
+                        // orderTotal: Update order total to the same order in latestCheckOrders by indexOf order
                         latestCheckOrders[orderLineNo]['orderTotal'] = 'Rs. ' + (Number((orderList['order']['price']).replace('Rs. ', ''))*latestCheckOrders[orderLineNo]['qty']);
 
-                        // Set checkOrder as latestCheckOrders
+                        // checkOrders: Set checkOrder as latestCheckOrders
                         orderList['checkOrders'] = latestCheckOrders;
 
                         // orderSummaryTotal: Plus this order total to orderSummaryTotal
                         orderSummaryTotal +=  Number((orderList['order']['orderTotal']).replace('Rs. ', '')); 
                         break;
                     case 'delete':
-
-                        // Get indexOf order that have to delete latestCheckOrders by 'orderNo'
+                        // delete: Get indexOf order that have to delete latestCheckOrders by 'orderNo'
                         // Note: For action 'delete' in criteria value sets orderNo refer to adding order of easier to set checkOrder in case has 'addOn' and 'delete' order before
                         orderLineNo = latestCheckOrders.findIndex(latest => latest['orderNo'] === orderList['order']['orderNo'])
 
@@ -208,10 +201,10 @@ Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
                         orderList['deleteRowNo'] = orderLineNo;
 
                         // orderSummaryTotal: Minus this order total from orderSummaryTotal
-                        // Note: Using orderTotal from latestCheckOrders in case hasn't set in criteria value and update first befor delete this order
+                        // Note: Using orderTotal from latestCheckOrders in case criteria value hasn't set qty and update orderSummaryTotal first befor delete this order.
                         orderSummaryTotal -= Number((latestCheckOrders[orderLineNo]['orderTotal']).replace('Rs. ', '')); 
                 
-                        // Set checkOrder by removing delete order out of latestCheckOrders by orderLineNo
+                        // checkOrders: Set checkOrder by removing delete order out of latestCheckOrders by orderLineNo
                         latestCheckOrders.splice(orderLineNo, 1);
                         orderList['checkOrders'] = latestCheckOrders
                         console.log('nowCheckOrders', latestCheckOrders);
@@ -233,8 +226,8 @@ Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
         // 2: orderSummaryTotal as now orderSummaryTotal with currency
         // 3: orderComment is set in the last row can be undefined = not do comment
         // 4: PaymentInfo from paymenyConfig by value as key
-        // 5: orderResult can be 'sucesss', 'failed-payment' 
-        // Note: 'orderComment', 'paymentDetail', 'orderResult' is set in the last row with 'orderComment' can be undifined
+        // 5: orderResult can be 'success', 'failed-payment' 
+        // Note: 'orderComment', 'paymentDetail', 'orderResult' is set in the last row with 'orderComment' can be undefined
         // e.g. 'orderSummary' = { checkOrders: [...] }, orderSummaryTotal: 'Rs. 500', paymentInfo: { "cardName": "Automated Test", "cardNumber": "1000200030004000", "cardCvc": 100, "cardExMonth": "05", "cardExYear": 2024}, orderResult: 'success' }
         testCasecriteria['orderSummary'] = {
             'checkOrders': orderListsArray[orderListsArray.length-1]['checkOrders'],
@@ -290,7 +283,7 @@ Cypress.Commands.add('visitPageFromClickCategory', (categoryName) => {
     cy.wait('@homepage');
 
     // Checking: Visiting page
-    // e.g. 'Kids - Dress Products'
+    // e.g. title = 'Kids - Dress Products'
     cy.checkPageFeaturesItemsTitle(`${categoryArray[0]} - ${categoryArray[1]} Products`);
 });
 
@@ -306,6 +299,7 @@ Cypress.Commands.add('visitPageFromClickBrands', (brandsName) => {
     cy.wait('@homepage')
 
     // Checking: Visiting page
+    // e.g. title =  'Brand - Polo Products'
     cy.checkPageFeaturesItemsTitle(`Brand - ${brands} Products`);
 });
 
@@ -325,6 +319,7 @@ Cypress.Commands.add('clickContinueButton', () => {
 // ++++ Login & Signup & Logout ++++
 // ++++ Login ++++
 // Login: Login by email and password from criteria
+// Note: Has to check undefined for error case that skip filled input
 Cypress.Commands.add('loginWebsite', (options) => {
     cy.log(`Login to your account`);
     console.log(`Login to your account`);
@@ -405,6 +400,7 @@ Cypress.Commands.add('logoutWebsite', () => {
 
 // ++++ Signup ++++
 // Signup: Signup by name and email from criteria
+// Note: Has to check undefined for error case that skip filled input
 Cypress.Commands.add('signupWebsite', (options) => {
     cy.log(`Signup to your account`);
     console.log(`Signup to your account`);
@@ -561,7 +557,7 @@ Cypress.Commands.add('filledSignupInformation', (criteria, type) => {
 // Login/Signup: Do action login or signup with criteria from userConfig.json
 Cypress.Commands.add('doActionLoginOrSignup', (loginOrSignup, userInfo) => {
     
-    // Do Action: Do action of order test case
+    // Do Action: Do action of e2e order test cases which result always 'success'
     switch(true){
         case loginOrSignup.includes('Login'):
             // login: login with userInfo & check login message
@@ -586,19 +582,50 @@ Cypress.Commands.add('doActionLoginOrSignup', (loginOrSignup, userInfo) => {
     }
 });
 
+// Delete Account: Delete account from click menu and check delete account success
+Cypress.Commands.add('deleteAccountFromClickMenu', () => {
+    // Visit: Delete account from click menu & Wait api delete account
+    cy.visitPageFromClickMenu('delete_account');
+    cy.wait('@homepage');
+
+    // Checking: Checking text 'Account Deleted'
+    cy.get(`h2[data-qa="account-deleted"]`).should(($ele) => {
+        expect($ele.text()).to.equal('Account Deleted!');
+    });
+
+    // Button: Click button continue to homepage and await api
+    cy.clickContinueButton();
+
+    // Check logout message after delete account
+    cy.checkLoginMessage({
+        result: 'logout'
+    });
+});
+
 // User: Clear userType|login's cart and deleted userType|signup from userConfig.json before test e2e order test cases
 // Note: Can parse userName in case using this command to clear user between test case
-Cypress.Commands.add('clearUserFromUserconfig', (userName) => {
+Cypress.Commands.add('clearUserFromUserconfig', (userName, userObject = {}) => {
 
-    // UserInfo: Get user info
-    // e.g. testCasecriteria['userInfo'] = {{ "title": "Mr.", "name": "Automated Test", "email": "automated.test@mail.com", "password": "automatedTest", "day": 1, "month": "January",...}}
-    const userInfo = getReferenceMappingJson('userConfig');
+    // Set userInfo and userNameArray base on userName
+    let userInfo, userNameArray
 
-    const userNameArray = userName === 'all' ? Object.keys(userInfo) : [userName];
+    if(userName === 'userObject') {
+        // User Info: If userName is 'userObject', set user info as userObject
+        // e.g. userInfo { "username":{ "userType": "signup","keys": "username", "email": criteria['signup|email'], "password": criteria['signup|password'] } }
+        userInfo = userObject; 
 
-    console.log(userNameArray);
+        // User Name Array: Set userNameArray as userObject's keys
+        userNameArray = Object.keys(userObject);
+    } else {
+        // User Info: Else, set user info from userConfig.json 
+        // e.g. userInfo = { "automatedUser": { "userType": "login", "title": "Mr.", "name": "Automated Test", "email": "automated.test@mail.com", "password": "automatedTest", "day": 1, "month": "January",...}, ...}
+        userInfo = getReferenceMappingJson('userConfig');
+        // User Name Array: Set userNameArray from userName as keys if userName sets as 'allConfig' then loop clear all user in config
+        userNameArray = userName === 'allConfig' ? Object.keys(userInfo) : [userName];
+    }
+    // console.log(userNameArray);
     
-    // Loop clear userType:login's cart and deleted userType:signup
+    // Loop clear user by userType:login's cart and deleted userType:signup
     userNameArray.forEach(user => {
 
         const userObject = userInfo[user];
@@ -623,7 +650,7 @@ Cypress.Commands.add('clearUserFromUserconfig', (userName) => {
             // Check in cart info table still has orders in cart or not. If still has orders, loop clear all orders in cart. 
             cy.get('#cart_info').then($ele => {
                 const tr = $ele.find('#cart_info_table tbody tr');
-                // console.log($ele.find('#cart_info_table tbody tr').length)
+                cy.log('Type Login: ' + user + ' ' + tr.length > 0 ? 'HAS' : 'NO' + ' order in cart.')
                 if(tr.length > 0) {
                     for(let i = 0 ; i < tr.length ; i++) {
                         cy.deletedOrderFromShoppingCart(0);
@@ -647,33 +674,14 @@ Cypress.Commands.add('clearUserFromUserconfig', (userName) => {
 
             // If login is 'success' = NOT show error message => delete account
             cy.get('body').then(($ele) => {
-                // console.log($ele.find('.login-form > form > p').length)
-                if($ele.find('.login-form > form > p').length === 0) {
+                const form = $ele.find('.login-form > form > p');
+                cy.log('Type Signup: ' + user + ' ' + form.length > 0 ? 'IS' : 'IS NOT' + ' exist.');
+                if(form.length === 0) {
                     cy.deleteAccountFromClickMenu();
                 }
             }); 
         }
     })
-});
-
-// Delete Account: Delete account from click menu and check delete account success
-Cypress.Commands.add('deleteAccountFromClickMenu', () => {
-    // Visit: Delete account from click menu & Wait api delete account
-    cy.visitPageFromClickMenu('delete_account');
-    cy.wait('@homepage');
-
-    // Checking: Checking text 'Account Deleted'
-    cy.get(`h2[data-qa="account-deleted"]`).should(($ele) => {
-        expect($ele.text()).to.equal('Account Deleted!');
-    });
-
-    // Button: Click button continue to homepage and await api
-    cy.clickContinueButton();
-
-    // Check logout message after delete account
-    cy.checkLoginMessage({
-        result: 'logout'
-    });
 });
 
 ///////////////////////////////////////////
@@ -700,7 +708,7 @@ Cypress.Commands.add('doActionAddProductFromCard', (order) => {
         mainElement = '.recommended_items';
 
         // Find product card by product name in recomended section, wait till carousel's item of this product card is active then add product to cart. 
-        // Note: Recomended section has 2 carousel's items which has 3 product cards per carousel's item. Product card in carousel can have case product card not in carousel's item that not active so has to wait in this step first.
+        // Note: Recomended section has 2 carousel's items which has 3 product cards per carousel's item. Product card in carousel can have case product card not in carousel's item that is not active yet so has to wait till is active in this step first.
         cy.contains(`${mainElement} div.product-image-wrapper .productinfo p`, order['name'])
             .closest('.item', {timeout: 50000})
             .should('have.class', 'active');
@@ -718,7 +726,7 @@ Cypress.Commands.add('doActionAddProductFromCard', (order) => {
             case order['addToCartFrom'] === 'recomendedCard':
                 // addToCartFrom: 'card', 'recomendedCard'
                 // Button: Click button 'Add to cart', wait api and check response message that added product success
-                // Note: Now find way to trigger .product-overlay which is parse pseudo css 
+                // Note: Still find way to trigger '.product-overlay' which is parse pseudo css to ':hover' for better test action
                 // cy.get('.single-products').rightclick().find('.product-overlay .add-to-cart').should('be.visible').click();
                 cy.get($card).find('.productinfo .add-to-cart').should('be.visible').click();
                 cy.wait('@addOrder').its('response.body').should('equal', 'Added To Cart');
@@ -744,7 +752,7 @@ Cypress.Commands.add('doActionInViewDetailPage', (order, action) => {
         case 'viewCheckComment':
             // Checking: Check detail of product in view detail page is correct
             cy.checkElementsInSectionAndCompareValues('productDetail', order);
-            // break;
+            // break; // Not break to do next step if in case
         case 'viewAdd':
         case 'viewCheckAdd':
             // Add product to cart by order criteria
@@ -757,7 +765,6 @@ Cypress.Commands.add('doActionInViewDetailPage', (order, action) => {
                 cy.wait('@addOrder').its('response.body').should('equal', 'Added To Cart');
             }) 
             break;
-        
     }
 });
 
@@ -766,8 +773,6 @@ Cypress.Commands.add('writeYourReviewInViewDetailPage', (criteria) => {
     
     cy.log(`++++ Write your review in view detail page ++++`);
     console.log(`++++ Write your review in view detail page ++++`);
-
-    // Write Your Review of product by criteria
 
     // Get writeYourReview input config from inputConfig.json to loop filled input
     // e.g. writeYourReview = { "formcriteria": [{ "name": "review|name", "formTitle": "Your Name", "elementName": "[id='name']", "formType": "input", "howToFilled": "type", "elementDisplay": "enable","defaultValue": [], "isRequiredField": "requierdl" }, ...]}
@@ -825,7 +830,7 @@ Cypress.Commands.add('filledPaymentInformation', (criteria, result) => {
     switch(result) {
         case 'success': 
             // Wait api to 'Order Placed' Page and check success message is shown
-            // Note: Now find way to get alert message under pay-button in 'Payment' Page but after click button Cypress auto loads to 'Order Placed' Page and can't get element before load page 
+            // Note: Still find way to get alert message under pay-button in 'Payment' Page but after click button Cypress auto loads to 'Order Placed' Page and can't get element before load page 
             // cy.get('div#success_message .alert-success') 
             // .should('contain', 'Your order has been placed successfully!')
             cy.wait('@homepage');
@@ -833,10 +838,11 @@ Cypress.Commands.add('filledPaymentInformation', (criteria, result) => {
             cy.get('#form .container p').should('contain', 'Congratulations! Your order has been confirmed!');
         break;
         case 'failed-paymentExp': 
+            // failed-payment: Dummy error case which can happen for payment process.
+            // Note: This website not check these error. 
             const errorCase = {
-                'failed-paymentExp': "Alert success should not show because of credit card is expiried"
+                'failed-paymentExp': 'Alert success should not show because of credit card is expiried'
             }
-            // failed-payment: Case Validate or somethings
             cy.get('div#success_message .alert-success').should(($ele) => {
                 expect($ele).to.not.be.visible(errorCase['result'])
             })
@@ -857,6 +863,7 @@ Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, ch
 
     const { mainElement, mappingCheckElementObject } = checkElementsConfig;
 
+    // Loop checkElements by mappingCheckElementObject
     mappingCheckElementObject.forEach(elementObject => {
 
         const { name, type, elementName, checkElement } = elementObject;
@@ -865,6 +872,7 @@ Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, ch
         console.log(`++++ Loop check elements and compare values: ${checkSection}-${name} ++++`);
 
         if(type === 'element') {
+            // element: Check detail in element by 'elementName'
             cy.get(mainElement)
             .find(elementObject['elementName'])
             .within($ele => {
@@ -872,12 +880,11 @@ Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, ch
                 loopCheckElementAndCompareValues($ele, checkElement, checkCriteria);
             });
         } else if(type === 'table' && checkCriteria.length === 0) {
-
+            // table: No order in order list, check no order
             // Checking: Checking elements in 'Shopping Cart' page that show shopping cart is empty
             cy.checkShoppingCartTableIsEmpty('afterDelete');
-           
         } else if(type === 'table' && checkCriteria.length > 0) {
-
+            // table: Has orders in order list, check has correct orders
             // Check table tr's length has to equal checkCriteria's length 
             // Note: Section 'Review Your Order' in 'Checkout' Page need to plus 1 rows as last row is summary total row
             cy.get(mainElement + ' ' + elementName).should('have.length', checkSection === 'reviewYourOrder' ? checkCriteria.length+1 : checkCriteria.length);
@@ -894,13 +901,12 @@ Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, ch
             })
         }
     })
-    
 });
 
 // Checking: Checking elements in 'Shopping Cart' page that show shopping cart is empty
+// Note: Should fixed this method to check 'visible' or 'exist' which not every case is 'default' case
 Cypress.Commands.add('checkShoppingCartTableIsEmpty', (type = 'default') => {
     cy.get('#empty_cart').should('be.visible');
-
     switch(type){
         case 'afterDelete': 
             cy.get('table#cart_info_table').should('not.be.visible');
@@ -910,8 +916,7 @@ Cypress.Commands.add('checkShoppingCartTableIsEmpty', (type = 'default') => {
             cy.get('table#cart_info_table').should('not.be.exist');
             cy.get('#do_action .check_out').should('not.be.exist');
             break;
-    }
-    
+    } 
 });
 
 ///////////////////////////////////////////
@@ -974,7 +979,7 @@ Cypress.Commands.add('updateTestCaseResultObject', (options) => {
     })
 });
 
-// Result: Write test case results to CSV by test case type from test case result variable which set column from form config's testCaseResult.
+// Result: Write test case results to CSV by test case type from test case result variable which set column from config's testCaseResult.
 Cypress.Commands.add('writeTestCaseResultToCSV', (options) => {
 
     const { type, testCaseName, continuedWriteTestCaseResult,  testIndex } = options;
@@ -1040,7 +1045,6 @@ Cypress.Commands.add('writeTestCaseResultToCSV', (options) => {
                 message += ` (Error Message: ${errorMessage})`;
                 expect(testStatus).to.equal('Pass', message);
                 break;
-
         }
     })
 });

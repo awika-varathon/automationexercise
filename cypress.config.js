@@ -6,10 +6,7 @@ module.exports = defineConfig({
 	e2e: {
 		baseUrl: "https://www.automationexercise.com",
 		env: {
-			"EMAIL": "automated.test@mail.com",
-			"USERNAME": "Automated Test",
-			"PASSWORD": "automatedTest",
-			"WAIT_TIME": 2000
+            commandDelay: false
 		},
 		viewportWidth: 1440,
 		viewportHeight: 780, 
@@ -19,6 +16,7 @@ module.exports = defineConfig({
 		watchForFileChanges: false,
         chromeWebSecurity: false,
         numTestsKeptInMemory: 5,
+        videoCompression: 1,
 		setupNodeEvents(on, config) {
 			// implement node event listeners here
 			on('task', {
