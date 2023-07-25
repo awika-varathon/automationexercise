@@ -15,7 +15,7 @@ module.exports = defineConfig({
 		requestTimeout: 50000,
 		watchForFileChanges: false,
         chromeWebSecurity: false,
-        numTestsKeptInMemory: 5,
+        // numTestsKeptInMemory: 5,
         videoCompression: 1,
 		setupNodeEvents(on, config) {
 			// implement node event listeners here

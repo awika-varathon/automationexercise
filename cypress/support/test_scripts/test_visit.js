@@ -49,7 +49,8 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                 // ++++ Check visit page element from config ++++
                 cy.checkVisitPageElement({
                     pageName: page,
-                    testCaseDetail: testCaseDetail
+                    testCaseDetail: testCaseDetail,
+                    writeTestCaseResult: writeTestCaseResult
                 });
 
                 cy.wait(2000); // Wait for recording video
@@ -76,7 +77,7 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
 // Visit: Check visit page element
 Cypress.Commands.add('checkVisitPageElement', (options) => {
 
-    const { testCaseDetail, pageName } = options;
+    const { testCaseDetail, pageName, writeTestCaseResult } = options;
 
     // Get this page config
     // pageConfig ={ "menuName": "Home", "menuIcon": "fa-home", "url": "/", "checkElement": [{ "name": "Carousel", "type": "exist", "elementName": "div[id='slider-carousel']" },...]}
@@ -136,6 +137,11 @@ Cypress.Commands.add('checkVisitPageElement', (options) => {
                     testResultObject: {
                         errorMessage: headerMessage + checkElementError.join(', '),
                         testStatus: 'Failed'
+                    }
+                }).should(() => {
+                    // If writeTestCaseResult is false return error to this test case with errorMessage
+                    if(!writeTestCaseResult) {
+                        expect('Failed').to.equal('Pass', headerMessage + checkElementError.join(', '));
                     }
                 });
             } else {

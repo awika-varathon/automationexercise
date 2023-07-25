@@ -548,7 +548,7 @@ Cypress.Commands.add('filledSignupInformation', (criteria, type) => {
             }
         break;
         case 'failed-dateOfBirth': 
-            // failed-dateOfBirth: Should not create account succussfuly with verify that 'ACCOUNT CREATED!' is visible because date of birth is wrong format.
+            // failed-dateOfBirth: Should not create account successfuly with verify that 'ACCOUNT CREATED!' is visible because date of birth is wrong format.
             cy.get('h2[data-qa="account-created"]').should('not.be.exist');
             break;
     }

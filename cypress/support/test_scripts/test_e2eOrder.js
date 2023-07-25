@@ -101,8 +101,8 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
                             // Do Action: Do action of order test case
                             cy.doActionLoginOrSignup(loginOrSignup, userInfo);
 
-                            // // If login or signup between ordering product, have to visit 'Shopping Cart' page first to check all added orders after as to sort order.
-                            // // Note: If not visit 'Shopping Cart' page after login or signup, when adds order, order will be 1st in the list not after adding order before
+                            // // If login or signup between adding product, have to visit 'Shopping Cart' page first to check all products in 'Cart Info' table first as sorting products' order.
+                            // // Note: If not visit 'Shopping Cart' page after login or signup, when adding a product, this product will be 1st order in 'Cart Info' table not after adding order instead of after the orders before which test scripts always check product's order should sorting by order of adding product.
                             // // Note2: Comment script to make this test case to be error test case
                             // if(i !== 0) {
                             //     cy.visitPageFromClickMenu('cart');
