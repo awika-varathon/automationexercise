@@ -128,7 +128,8 @@ export const loopCheckElementAndCompareValues = ($ele, checkElement, criteria) =
         switch(true) {
             case element['key'] === 'city-state-zipcode':
                 // If key is 'city-state-zipcode', concat city, state and zipcode for address mapping
-                // baseValue = `New York New York 10001`
+                // Note: Text from element is 'New York New York\n\t\t\t\t\t\t\t\t10001' when do function 'removeTextLinebreaks' will clear all '\n', '\t' so baseValue set between state and zipcode without space
+                // e.g. baseValue = `New York New York10001`
                 baseValue = `${criteria['city']} ${criteria['state']}${criteria['zipcode']}`
                 break;
             default: 
@@ -178,6 +179,7 @@ export const checkElementValidationMessage = (elementName, checkCase) => {
     cy.get('input' + elementName).invoke('prop', 'validationMessage')
     .should('contain', checkCaseObject[checkCase])
 }
+
 ///////////////////////////////////////////
 // ++++ Convent Value For Test Value ++++
 // Date: Convert nowDate to date or time or test case result
@@ -197,6 +199,35 @@ export const removeTextLinebreaks = (str) => {
     return str.replaceAll(/[\r\n\t]+/gm,''); 
     // return str.replaceAll( /[\r\n\t]+/gm,'').replace(/(?:\r\n|\r|\n)/g, '').replaceAll(/(&nbsp;)*/g,'');
 }
+
+
+///////////////////////////////////////////
+// ++++ Get Value ++++
+// Product: Get products details from productsConfig by searchKey,searchValue and searchType
+// Note: Can using for category, brand, search box
+// e.g. options = { searchKey: 'category-type', searchValue: 'Women > Tops', searchType: 'equel'}
+export const searchProductFromproductsConfig = (options) => {
+
+    const { searchKey, searchValue, searchType } = options;
+
+    // Product: Get all products detail from config 
+    // e.g. { "id": "1", "name": "Blue Top", "price": "Rs. 500", "brand": "Polo", "category": { "usertype": { "usertype": "Women" }, "category": "Tops" }, "category-type": "Women > Tops", "img": "/get_product_picture/1", "url": "/product_details/1", "availability": "In Stock", "condition": "New" },
+    const productsConfig = getReferenceMappingJson('productsConfig.json');
+
+    // Return products details by searchKey,searchValue and searchType
+    switch(searchType) {
+        case 'equel': 
+            // equel: For case category, brand. Return products that searchValue equel value of productsConfig's searchKey 
+            return productsConfig.filter(product => product[searchKey] === searchValue);
+        case 'search':
+            // search: Search box. Return products that searchValue contains in value of productsConfig's category or contains in value of  productsConfig's name
+            // e.g. searchValue = 'blue' => Return [{ "id": "1", "name": "Blue Top",...}, { "id": "16", "name": "Sleeves Top and Short - Blue & Pink",...}, ...]
+            return  productsConfig.filter(product => 
+                ((product['category']['category']).toLowerCase()).includes(searchValue.toLowerCase()) || 
+                ((product['name']).toLowerCase()).includes(searchValue.toLowerCase())
+            );
+    }
+};
 
 ///////////////////////////////////////////
 // ++++ Get File Path Name & Data From JSON ++++

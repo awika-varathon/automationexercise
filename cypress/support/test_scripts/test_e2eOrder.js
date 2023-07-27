@@ -15,7 +15,7 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
         cy.task('clearTestCaseResultVariable');
     });
 
-    // [DEBUG ONLY] User: Loop clear userType|login's cart and deleted userType|signup from userConfig.json before test e2e order test cases
+    // // [DEBUG ONLY] User: Loop clear userType|login's cart and deleted userType|signup from userConfig.json before test e2e order test cases
     // describe(`User: Clear user|login cart and deleted user|signup from userConfig.json`, () => {
 
     //     it('User: Clear user|login cart and deleted user|signup from userConfig.json', () => {
@@ -129,7 +129,7 @@ export const e2eOrderTestScriptsbyTestCase = (options) => {
                                     cy.visitPageFromClickBrands(order['orderFromSection']);
                                     break;
                                 case order['orderFromSection'] === 'search':  
-                                    // Search: Search product in page from serch box (products page only)
+                                    // Search: Search product in 'Products' page from search box
                                     cy.searchProductFromSearchbox(order['name']);
                                     break
                                 case order['orderFromSection'] === 'recommended': 

@@ -260,16 +260,16 @@ Cypress.Commands.add('visitPageFromClickMenu', (pageName) => {
     if(pageName !== 'video_tutorials') {
         cy.wait('@homepage');
     } 
-    // else {
-    //     cy.wait('@video_tutorials');
-    // }
+    else {
+        cy.wait('@video_tutorials');
+    }
 });
 
-// Visit: Visit page from click category at sidebar
+// Visit: Visit page from click 'Category' at sidebar
 Cypress.Commands.add('visitPageFromClickCategory', (categoryName) => {
 
     // Category: Convert categoryName for click sidebar category mainMenu and subMenu
-    // e.g. categoryName = category[women|dress] => 'women|dress' => ['women', 'dress']
+    // e.g. categoryName = category[Women|Dress] => 'Women|Dress' => ['Women', 'Dress']
     const categoryArray =  categoryName.split('[').pop().replace(']', '').split('|');
 
     // 1: Click category's usertype or main title to open toggle of li category
@@ -282,12 +282,12 @@ Cypress.Commands.add('visitPageFromClickCategory', (categoryName) => {
         .click();
     cy.wait('@homepage');
 
-    // Checking: Visiting page
+    // Checking: Visiting 'Category' page
     // e.g. title = 'Kids - Dress Products'
     cy.checkPageFeaturesItemsTitle(`${categoryArray[0]} - ${categoryArray[1]} Products`);
 });
 
-// Visit: Visit page from click brands at sidebar
+// Visit: Visit page from click 'Brands' at sidebar
 Cypress.Commands.add('visitPageFromClickBrands', (brandsName) => {
 
     // Brands: Convert brandsName to object for click sidebar brands
@@ -298,7 +298,7 @@ Cypress.Commands.add('visitPageFromClickBrands', (brandsName) => {
     cy.contains('.brands_products div.brands-name ul li', brands).click();
     cy.wait('@homepage')
 
-    // Checking: Visiting page
+    // Checking: Visiting 'Brands' page
     // e.g. title =  'Brand - Polo Products'
     cy.checkPageFeaturesItemsTitle(`Brand - ${brands} Products`);
 });
@@ -702,8 +702,9 @@ Cypress.Commands.add('searchProductFromSearchbox', (searchText) => {
 Cypress.Commands.add('doActionAddProductFromCard', (order) => {
 
     // Set mainElement as section to find product card
+    // Note: Have to check order['addToCartFrom'] is undefined because function using in 'test_checkProducts.js' too which doesn't set key 'addToCartFrom' and 'addToCartFrom' in order's object
     let mainElement 
-    if(order['addToCartFrom']=== 'recomendedCard') {
+    if(order['addToCartFrom'] !== undefined && order['addToCartFrom'] === 'recomendedCard') {
         // If addToCartFrom is 'recomendedCard', set mainElement as '.recommended_items'       
         mainElement = '.recommended_items';
 
@@ -722,6 +723,11 @@ Cypress.Commands.add('doActionAddProductFromCard', (order) => {
     .closest('.product-image-wrapper').then($card =>{
             
         switch(true) {
+            case order['addToCartFrom'] === undefined:
+                // addToCartFrom: if undefined means test_checkProducts
+                // Checking: Check detail of product in product card is correct
+                cy.checkElementsInSectionAndCompareValues('card', order, $card);
+                break;
             case order['addToCartFrom'] === 'card':
             case order['addToCartFrom'] === 'recomendedCard':
                 // addToCartFrom: 'card', 'recomendedCard'
@@ -853,7 +859,7 @@ Cypress.Commands.add('filledPaymentInformation', (criteria, result) => {
 ///////////////////////////////////////////
 // ++++ Checking Elements ++++
 // Checking: Loop check elements from checkElemantsConfig.json and compare value with checkCriteria
-Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, checkCriteria) => {
+Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, checkCriteria, $mainElement = '') => {
 
     console.log(checkCriteria);
 
@@ -871,9 +877,17 @@ Cypress.Commands.add('checkElementsInSectionAndCompareValues', (checkSection, ch
         cy.log(`++++ Loop check elements and compare values: ${checkSection}-${name} ++++`);
         console.log(`++++ Loop check elements and compare values: ${checkSection}-${name} ++++`);
 
-        if(type === 'element') {
-            // element: Check detail in element by 'elementName'
+        if(type === 'element' && checkSection !== 'card') {
+            // element not 'card': Check detail in element by 'elementName'
             cy.get(mainElement)
+            .find(elementObject['elementName'])
+            .within($ele => {
+                // Loop check element and compare value with criteria value
+                loopCheckElementAndCompareValues($ele, checkElement, checkCriteria);
+            });
+        } else if(type === 'element' && checkSection === 'card') {
+            // element & 'card': Set mainElement as $mainElement because has to specified card by product's name from function 'doActionAddProductFromCard' before check detail in element by 'elementName'
+            cy.get($mainElement)
             .find(elementObject['elementName'])
             .within($ele => {
                 // Loop check element and compare value with criteria value
