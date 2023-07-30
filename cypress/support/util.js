@@ -32,7 +32,12 @@ export const filledFormElementVauleBycriteria = (options) => {
     }
 
     // Filled: Filled value by formType & howToFilled if criteria has set value
-    if((criteria[name] !== undefined && criteria[name] !== '')|| criteria[name] !== checkValue) {
+    if(criteria[name] === undefined || criteria[name] === '' || criteria[name] === checkValue) {
+        cy.log(`NOT Filled Form Element Vaule: ${name}`);
+        console.log(`NOT Filled Form Element Vaule: ${name}`);
+    }
+    else {
+    // if(criteria[name] !== undefined || criteria[name] !== '' || criteria[name] !== checkValue) {
 
         cy.log(`Filled Form Element Vaule: ${name}: ${criteria[name]}-${formType}-${howToFilled}`);
         console.log(`Filled Form Element Vaule: ${name}: ${criteria[name]}-${formType}-${howToFilled}`);
@@ -44,6 +49,12 @@ export const filledFormElementVauleBycriteria = (options) => {
                 // INPUT & TYPE: Filled input with criteria's value by type's value and click body to clear in case this input trigger other input
                 // e.g. element name = input[data-qa='name']
                 cy.get(`input${elementName}`).clear().type(criteria[name]);
+                cy.get('body').click(0,0);
+                break;
+            case formType === 'textarea':
+                // TEXTAREA: Filled input with criteria's value by type's value and click body to clear in case this input trigger other input
+                // e.g. element name = input[data-qa='name']
+                cy.get(`textarea${elementName}`).clear().type(criteria[name]);
                 cy.get('body').click(0,0);
                 break;
             case formType === 'input' && howToFilled === 'autofilled':
@@ -73,11 +84,17 @@ export const filledFormElementVauleBycriteria = (options) => {
                 // e.g. element name = 'div[data-qa="title"] input[type="radio"]'
                 cy.get(`div${elementName} input[type="radio"]`).check(criteria[name].replace('.', ''));
                 break;
+            case formType === 'upload': 
+                // RADIO: Check radio's input by criteria's value
+                // e.g. <input type="file" class="form-control" name="upload_file">
+                cy.get(`input${elementName}`).selectFile(`${getReferenceFilePathName('upload')}/${criteria[name]}`)
+                break;
         }
-    } else {
-        cy.log(`NOT Filled Form Element Vaule: ${name}`);
-        console.log(`NOT Filled Form Element Vaule: ${name}`);
-    }
+    } 
+    // else {
+    //     cy.log(`NOT Filled Form Element Vaule: ${name}`);
+    //     console.log(`NOT Filled Form Element Vaule: ${name}`);
+    // }
 };
 
 ///////////////////////////////////////////
@@ -176,7 +193,8 @@ export const checkElementValidationMessage = (elementName, checkCase) => {
         'formatEmail': "Please include an '@' in the email address."
     }
     
-    cy.get('input' + elementName).invoke('prop', 'validationMessage')
+    // cy.get('input' + elementName).invoke('prop', 'validationMessage')
+    cy.get(elementName).invoke('prop', 'validationMessage')
     .should('contain', checkCaseObject[checkCase])
 }
 
@@ -200,34 +218,53 @@ export const removeTextLinebreaks = (str) => {
     // return str.replaceAll( /[\r\n\t]+/gm,'').replace(/(?:\r\n|\r|\n)/g, '').replaceAll(/(&nbsp;)*/g,'');
 }
 
-
 ///////////////////////////////////////////
 // ++++ Get Value ++++
-// Product: Get products details from productsConfig by searchKey,searchValue and searchType
+// Products: Get object of products to check product details from productsConfig by objectKey, objectValue, and getValueType.
 // Note: Can using for category, brand, search box
-// e.g. options = { searchKey: 'category-type', searchValue: 'Women > Tops', searchType: 'equel'}
-export const searchProductFromproductsConfig = (options) => {
+// e.g. options = { objectKey: 'category-type', objectValue: 'Women > Tops', getValueType: 'equal'}
+export const getProductsObjectFromProductsConfig = (options) => {
 
-    const { searchKey, searchValue, searchType } = options;
+    const { objectKey, objectValue, getValueType } = options;
 
     // Product: Get all products detail from config 
     // e.g. { "id": "1", "name": "Blue Top", "price": "Rs. 500", "brand": "Polo", "category": { "usertype": { "usertype": "Women" }, "category": "Tops" }, "category-type": "Women > Tops", "img": "/get_product_picture/1", "url": "/product_details/1", "availability": "In Stock", "condition": "New" },
     const productsConfig = getReferenceMappingJson('productsConfig.json');
 
-    // Return products details by searchKey,searchValue and searchType
-    switch(searchType) {
-        case 'equel': 
-            // equel: For case category, brand. Return products that searchValue equel value of productsConfig's searchKey 
-            return productsConfig.filter(product => product[searchKey] === searchValue);
-        case 'search':
-            // search: Search box. Return products that searchValue contains in value of productsConfig's category or contains in value of  productsConfig's name
-            // e.g. searchValue = 'blue' => Return [{ "id": "1", "name": "Blue Top",...}, { "id": "16", "name": "Sleeves Top and Short - Blue & Pink",...}, ...]
+    // Return products details by objectKey,objectValue and getValueType
+    switch(true) {
+        case objectValue === '': 
+            // objectValue-'': If seachValue is '', return all products object
+            return productsConfig
+        case getValueType === 'equal': 
+            // getValueType-equal: Return products object that objectValue equal value of productsConfig's objectKey 
+            return productsConfig.filter(product => product[objectKey] === objectValue);
+        case getValueType === 'searchbox':
+            // getValueType-searchbox: Only Search box case. Return products object that objectValue contains in value of productsConfig's category or contains in value of productsConfig's name
+            // e.g. objectValue = 'blue' => Return [{ "id": "1", "name": "Blue Top",...}, { "id": "16", "name": "Sleeves Top and Short - Blue & Pink",...}, ...]
             return  productsConfig.filter(product => 
-                ((product['category']['category']).toLowerCase()).includes(searchValue.toLowerCase()) || 
-                ((product['name']).toLowerCase()).includes(searchValue.toLowerCase())
+                ((product['category']['category']).toLowerCase()).includes(objectValue.toLowerCase()) || 
+                ((product['name']).toLowerCase()).includes(objectValue.toLowerCase())
             );
     }
 };
+
+// InputConfig: Get input config to check element failed format email
+// e.g. criteria['contact|result'] = 'failed-format-contact|email' => 'contact|email'
+export const checkFailedFormatEmailElementValidationMessage = (inputConfig, criteria) => {
+    const elementCheckConfig = inputConfig.find(formcriteria => formcriteria['name'] === criteria.replace('failed-format-',''))
+    checkElementValidationMessage(elementCheckConfig['elementName'], 'formatEmail');
+    // return elementCheckConfig['elementName'];
+    
+}
+
+// InputConfig: Get input config to check element failed field
+// e.g. criteria['contact|result'] = 'failed-filled-contact|name' => 'contact|name'
+export const checkFailedFillFieldElementValidationMessage = (inputConfig, criteria) => {
+    const elementCheckConfig = inputConfig.find(formcriteria => formcriteria['name'] === criteria.replace('failed-filled-',''))
+    checkElementValidationMessage(elementCheckConfig['elementName'], 'fillField');
+    // return elementCheckConfig['elementName'];
+}
 
 ///////////////////////////////////////////
 // ++++ Get File Path Name & Data From JSON ++++
@@ -236,6 +273,7 @@ export const getReferenceFilePathName = (key) => {
     const object = {
         configJSON : 'cypress/fixtures/configJSON',
         testCasecriteria : `cypress/fixtures/testCasecriteria`,
+        upload : `cypress/fixtures/testCasecriteria/upload`,
         testResult : `cypress/downloads/testResult`,
     }
     return object[key];
@@ -261,8 +299,8 @@ export const getReferenceMappingJson = (key) => {
             return require(`../${baseFolder}/updateTestCaseResultConfig.json`);
         case 'userConfig':
             return require(`../${baseFolder}/userConfig.json`);
-        case 'websiteMeunConfig':
-            return require(`../${baseFolder}/websiteMeunConfig.json`);
+        case 'websiteMenuConfig':
+            return require(`../${baseFolder}/websiteMenuConfig.json`);
     } 
 }
 

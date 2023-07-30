@@ -1,8 +1,8 @@
-import { e2eVisitTestScriptsbyTestCase } from '../../support/test_scripts/test_visit'
+import { visitCheckElementsOnWebsitePageTestScripts } from '../../../support/test_scripts/test_visit'
 
-// ++++ Test 2e2 visit by test cases ++++
-// Set test cases array of test cases visit
-// Note: Key 'page', value has to be set as same as object's key in file fixtures/configJSON/websiteMeunConfig.json
+// ++++ Test 'visit' to check elements on website page by test cases ++++
+// Set test cases array of test cases 'visit' to check elements on website page.
+// Note: Key 'page', value has to be set as same as object's key in file 'fixtures/configJSON/websiteMenuConfig.json'.
 const e2eTestCaseArray = [
     { type: 'visit', testCaseName: 'visit_01', page: 'homepage' },
     { type: 'visit', testCaseName: 'visit_02', page: 'products' },
@@ -15,17 +15,17 @@ const e2eTestCaseArray = [
     // { type: 'visit', testCaseName: 'visit_09', page: 'errorCase' },
 ];
 
-// Set want to write test case result in CSV or not
-// If set as false will not write test case result in CSV
+// Set want to write test case result in CSV or not.
+// If set as false will not write test case result in CSV.
 // const writeTestCaseResult = true;
 const writeTestCaseResult = false;
 
-// Set want to coutinue write test case result in CSV or not
-// If set as false will clear and rewrite test case result in CSV
+// Set want to coutinue write test case result in CSV or not.
+// If set as false will clear and rewrite test case result in CSV.
 // const continuedWriteTestCaseResult = true;
 const continuedWriteTestCaseResult = false;
 
-e2eVisitTestScriptsbyTestCase ({
+visitCheckElementsOnWebsitePageTestScripts ({
     testCasesArray: e2eTestCaseArray, 
     writeTestCaseResult: writeTestCaseResult, 
     continuedWriteTestCaseResult: continuedWriteTestCaseResult,

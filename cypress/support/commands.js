@@ -246,16 +246,25 @@ Cypress.Commands.add('setOrderTestCasecriteriaVariableFromExcel', (options) => {
 
 ///////////////////////////////////////////
 // ++++ Visit ++++
+// Get websiteMenuConfig from json
+// e.g. pageName = 'homepage', 'products', 'cart', 'login', 'logout', 'delete_account', 'test_cases', 'api_testing', 'contact_us', 'video_tutorials', 'errorCase'  
+
 // Visit: Visit Homepage
 Cypress.Commands.add('visitHomepage', () => {
     cy.visit('/');
     cy.wait('@homepage');
 });
 
+// Visit: Visit page fBy URL
+Cypress.Commands.add('visitPageByURL', (pageName) => {
+    const pageConfig = getObjectFromReferenceMappingJson('websiteMenuConfig', pageName);
+    cy.visit(pageConfig['url']);
+    cy.wait('@homepage');
+});
+
 // Visit: Visit page from click menu
-// e.g. pageName = 'homepage', 'products', 'cart', 'login', 'logout', 'delete_account', 'test_cases', 'api_testing', 'contact_us', 'video_tutorials', 'errorCase'  
 Cypress.Commands.add('visitPageFromClickMenu', (pageName) => {
-    const pageConfig = getObjectFromReferenceMappingJson('websiteMeunConfig', pageName);
+    const pageConfig = getObjectFromReferenceMappingJson('websiteMenuConfig', pageName);
     cy.contains(`.shop-menu ul li`, pageConfig['menuName']).click();
     if(pageName !== 'video_tutorials') {
         cy.wait('@homepage');
@@ -412,7 +421,7 @@ Cypress.Commands.add('signupWebsite', (options) => {
             .clear().type(options['login|name']);
         }
         
-        // Name: Clear & type email
+        // Email: Clear & type email
         if(options['login|email'] !== undefined) {
             cy.get('input[data-qa="signup-email"]')
             .clear().type(options['login|email']);
@@ -445,17 +454,17 @@ Cypress.Commands.add('checkSignupMessage', (result) => {
         case 'failed-formatEmail':
             // failed-formatEmail: Checking input validation message by formatEmail
             checkElementValidationMessage('[data-qa="signup-email"]', 'formatEmail');
-            cy.wait(2000);
+            // cy.wait(2000);
             break;
         case 'failed-filledEmail':
             // failed-filledEmail: Checking input validation message by not filled email
             checkElementValidationMessage('[data-qa="signup-email"]', 'fillField');
-            cy.wait(2000);
+            // cy.wait(2000);
             break;
         case 'failed-filledName':
             // failed-filledEmail: Checking input validation message by not filled name
             checkElementValidationMessage('[data-qa="signup-name"]', 'fillField');
-            cy.wait(2000);
+            // cy.wait(2000);
             break;
     }
 });
@@ -687,13 +696,21 @@ Cypress.Commands.add('clearUserFromUserconfig', (userName, userObject = {}) => {
 ///////////////////////////////////////////
 // ++++ Search ++++
 // Search: Search product in page from serch box (products page only)
+// Note: If click button submit search without type searchText, Search page will show all products.
 Cypress.Commands.add('searchProductFromSearchbox', (searchText) => {
-    cy.get('input#search_product').click().clear().type(searchText);
+
+    let checkTitle = 'All Products';
+
+    // If searchText is not '', type searchText in search box and set checkTitle
+    if(searchText !== '') {
+        cy.get('input#search_product').click().clear().type(searchText);
+        checkTitle = 'Searched Products'
+    }
 
     // Button: Click button submit search, wait api and check is 'Search product' page
     cy.get('button#submit_search').click();
     cy.wait('@homepage');
-    cy.checkPageFeaturesItemsTitle('Searched Products')
+    cy.checkPageFeaturesItemsTitle(checkTitle);
 });
 
 ///////////////////////////////////////////
@@ -772,33 +789,6 @@ Cypress.Commands.add('doActionInViewDetailPage', (order, action) => {
             }) 
             break;
     }
-});
-
-// Review: Write Your Review of product by criteria in view detail page
-Cypress.Commands.add('writeYourReviewInViewDetailPage', (criteria) => {
-    
-    cy.log(`++++ Write your review in view detail page ++++`);
-    console.log(`++++ Write your review in view detail page ++++`);
-
-    // Get writeYourReview input config from inputConfig.json to loop filled input
-    // e.g. writeYourReview = { "formcriteria": [{ "name": "review|name", "formTitle": "Your Name", "elementName": "[id='name']", "formType": "input", "howToFilled": "type", "elementDisplay": "enable","defaultValue": [], "isRequiredField": "requierdl" }, ...]}
-    const writeYourReviewConfig = getObjectFromReferenceMappingJson('inputConfig', 'writeYourReview');
-    
-    // Checked & Filled: Loop checked and filled writeYourReview section form element value by criteria value
-    writeYourReviewConfig['formcriteria'].forEach(formcriteria => {
-        filledFormElementVauleBycriteria({
-            formcriteria: formcriteria,
-            criteria: criteria,
-        });
-    });
-    
-    // Button: Click button 'Submit', to send review
-    cy.get('button #button-review').click();
-
-    // Writr review show 'success' message
-    // Note: Do check 'error' case to
-    cy.get('div#review-section .alert-success')
-    .should('contain', 'Thank you for your review.')
 });
 
 // Delete: Delete order from shopping cart table by row no of product (e.g. deleteRowNo: 1)
@@ -1045,17 +1035,17 @@ Cypress.Commands.add('writeTestCaseResultToCSV', (options) => {
     }).should(() => {
 
         let message = '';
-        message += `Check 2e2 ${type} test case(${testCaseName}): Have to Pass ${type} test`
+        message += `Check e2e ${type} test case(${testCaseName}): Have to Pass ${type} test`
         // Show test result by type if 'Failed', show 'Failed'
         switch(type) {
             case 'login': 
             case 'register': 
             case 'e2eOrder':
-                // Check 2e2 form test case result from all tests status have equal 'Pass'
+                // Check e2e form test case result from all tests status have equal 'Pass'
                 expect(testStatus).to.equal('Pass', message);
                 break;
             case 'visit': 
-                // Check 2e2 form test case result from all tests status have equal 'Pass'
+                // Check e2e form test case result from all tests status have equal 'Pass'
                 message += ` (Error Message: ${errorMessage})`;
                 expect(testStatus).to.equal('Pass', message);
                 break;

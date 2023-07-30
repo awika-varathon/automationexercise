@@ -307,7 +307,7 @@
                 "howToFilled": "type",
                 "elementDisplay": "enable",
                 "defaultValue": [],
-                "isRequiredField": "requierd"
+                "isRequiredField": "optional"
             },
             {
                 "name": "contact|email",
@@ -327,10 +327,10 @@
                 "howToFilled": "type",
                 "elementDisplay": "enable",
                 "defaultValue": [],
-                "isRequiredField": "requierd"
+                "isRequiredField": "optional"
             },
             {
-                "name": "contact|subject",
+                "name": "contact|message",
                 "formTitle": "Your Message Here",
                 "elementName": "[data-qa='message']",
                 "formType": "textarea",
@@ -344,7 +344,7 @@
                 "formTitle": "File",
                 "elementName": "[name='upload_file']",
                 "formType": "upload",
-                "howToFilled": "button",
+                "howToFilled": "input",
                 "elementDisplay": "enable",
                 "defaultValue": [],
                 "isRequiredField": "optional"

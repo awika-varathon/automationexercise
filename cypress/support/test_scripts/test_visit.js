@@ -2,18 +2,18 @@ import '../commands'
 import { slowCypressDown } from 'cypress-slow-down'
 import { getObjectFromReferenceMappingJson } from '../util'
 
-// 2e2: Test visit by test case loop by form type
+// Check Elements: Test 'visit' to check elements on website page by loop test cases in testCasesArray.
 // e.g. testCasesArray= [{ type: 'visit', testCaseName: 'visit_01', page: "homepage" }, { type: 'visit', testCaseName: 'visit_02', page: "products" }]
 // e.g. writeTestCaseResult, continuedWriteTestCaseResult = true/false
-export const e2eVisitTestScriptsbyTestCase = (options) => {
+export const visitCheckElementsOnWebsitePageTestScripts = (options) => {
 
     const { testCasesArray, writeTestCaseResult, continuedWriteTestCaseResult }= options;
 
-    // Slow test cypress down for recording video when runs command 'cypress run' 
+    // Slow test cypress down for recording video when runs command 'cypress run'.
     slowCypressDown();
 
     before(() => {
-        // Variable: Set testCaseResultVariable's object 1st times
+        // Variable: Set testCaseResultVariable's object 1st times.
         cy.task('clearTestCaseResultVariable');
     });
     
@@ -21,22 +21,22 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
         
         const { type, testCaseName, page } = testCaseDetail;
     
-        describe(`[Visit] ${testIndex+1}.${testCaseName}-e2e Test visit page: ${page} `, () => {
+        describe(`[Visit] ${testIndex+1}.${testCaseName}-Test 'visit' to check element on website ${page} page.`, () => {
           
             beforeEach(() => {
-                // API: Set website base intercept
+                // API: Set website base intercept.
                 cy.setWebsiteBaseIntercept();
     
-                // Variable: Set testCasecriteriaVariable's object 1st times
+                // Variable: Set testCasecriteriaVariable's object 1st times.
                 cy.task('clearTempVariables');
             });
     
-            it(`${testIndex+1}.1.${testCaseName}: Start e2e test visit in website`, () => {
+            it(`${testIndex+1}.1.${testCaseName}: Start test 'visit' to check elements on website ${page} page.`, () => {
     
-                cy.log(`++++ ${testCaseName}: Start e2e test visit in website ++++`);
-                console.log(`++++ ${testCaseName}: Start e2e test visit in website ++++`);
+                cy.log(`++++ ${testCaseName}: Start test 'visit' to check elements on website ${page} page. ++++`);
+                console.log(`++++ ${testCaseName}: Start test 'visit' to check elements on website ${page} page. ++++`);
 
-                // Result: Set base test case result to test case result variable 
+                // Result: Set base test case result to test case result variable. 
                 // e.g. result = { testDate: "04/07/2023", testStartTime: "10:52:12", testEndTime: "-", testCase: "login_01", testStatus: "Failed"}
                 cy.setBaseTestCaseResultObject(testCaseDetail);
     
@@ -46,18 +46,18 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
                 // ++++ Visit page from click menu ++++
                 cy.visitPageFromClickMenu(page);
 
-                // ++++ Check visit page element from config ++++
+                // ++++ Check element on visit page base on websitePage config ++++
                 cy.checkVisitPageElement({
                     pageName: page,
                     testCaseDetail: testCaseDetail,
                     writeTestCaseResult: writeTestCaseResult
                 });
 
-                cy.wait(2000); // Wait for recording video
+                cy.wait(1000); // Wait for recording video.
             });
 
-            // Result: Write this test case results to CSV from test case result variable 
-            // Note: Need to write by test case in case code snap during test each and the end won't write test case
+            // Result: Write this test case results to CSV from test case result variable. 
+            // Note: Need to write by test case in case code snap during test each and the end won't write test case.
             if(writeTestCaseResult) {
                 it(`${testIndex+1}.2.${testCaseName}: Write Test Case Result To CSV & Show Test Result`, () => {
                     cy.writeTestCaseResultToCSV({
@@ -74,53 +74,52 @@ export const e2eVisitTestScriptsbyTestCase = (options) => {
 
 ///////////////////////////////////////////
 // ++++ Visit ++++
-// Visit: Check visit page element
+// Visit: Check element on visit page base on websitePage config.
 Cypress.Commands.add('checkVisitPageElement', (options) => {
 
     const { testCaseDetail, pageName, writeTestCaseResult } = options;
 
-    // Get this page config
-    // pageConfig ={ "menuName": "Home", "menuIcon": "fa-home", "url": "/", "checkElement": [{ "name": "Carousel", "type": "exist", "elementName": "div[id='slider-carousel']" },...]}
-    const pageConfig = getObjectFromReferenceMappingJson('websiteMeunConfig', pageName);
+    // Get website page config by pageName.
+    // pageConfig = { "menuName": "Home", "menuIcon": "fa-home", "url": "/", "checkElement": [{ "name": "Carousel", "type": "exist", "elementName": "div[id='slider-carousel']" },...]}
+    const pageConfig = getObjectFromReferenceMappingJson('websiteMenuConfig', pageName);
 
     const { url, checkElement } = pageConfig;
     
-    // URL: Get url to check url case
+    // URL: Get now website URL to check URL case.
     cy.url().then(pageURL => {
-
-        cy.log('url: ' + pageURL);
+        // cy.log('url: ' + pageURL);
 
         // Element: Get body to find check element
-        // Note: For page 'video_tutorials' not check elememt because is in youtube page need to  
+        // Note: For page 'video_tutorials' not check elememts because youtube page need to get element in iframe which using different Cypress command.  
         cy.get('body').then($body => {
 
-            let checkElementError = [];
+            let checkElementsErrorArray = [];
             const headerMessage = `Page ${pageConfig['menuName']}: `;
             
-            // Set checkUrl if pageName is not 'video_tutorials', add baseUrl at front
+            // URL: Set checkUrl if pageName is not 'video_tutorials', add baseUrl at front.
             const checkURL = pageName === 'video_tutorials' ? url : Cypress.config('baseUrl') + url;
 
-            // url: Check url of this page, if not same as checkURL then push errorMassage
+            // URL: Check URL of this page, if not same as checkURL then push errorMassage.
             if(checkURL !== pageURL) {
-                checkElementError.push(`URL is ${pageURL} NOT ${checkURL}`);
+                checkElementsErrorArray.push(`URL is ${pageURL} NOT ${checkURL}`);
             }
             cy.log(headerMessage + `URL is ${pageURL}:${checkURL}`);
 
-            // Loop check element in page
+            // Elements: Loop check elements in page by checkElement.
             checkElement.forEach(checkEle => {
                 
                 const { name, type, elementName } = checkEle;
                 let testResult = 'Pass';
                 let message = '';
 
-                // Check Element by type
+                // Elements: Check Element in page by type.
                 switch(type) {
                     case 'exist':
-                        // exist: Check element is exist on page, if not exist then push errorMassage
+                        // exist: Check element is exist on page, if not exist then push errorMassage.
                         // cy.get(elementName).should('be.exist'); // DEBUG ONLY
                         if( $body.find(elementName).length === 0) {
                             testResult = 'Failed'
-                            checkElementError.push(`Element ${name} is not exist`);
+                            checkElementsErrorArray.push(`Element ${name} is not exist`);
                         } 
                         message = `Element[${name}] ${testResult === 'Pass' ? ' IS ' : ' IS NOT ' } exist`
                         break;
@@ -129,22 +128,24 @@ Cypress.Commands.add('checkVisitPageElement', (options) => {
                 console.log(headerMessage + message);
             })
 
-            // If has checkElementError, update errorMessage to test case result variable
-            if(checkElementError.length > 0) {
+            // Show test result of check element
+            if(checkElementsErrorArray.length > 0) {
+                // If has checkElementsErrorArray, update errorMessage to test case result variable and 'testStatus' to 'Failed'.
                 cy.updateTestCaseResultObject({
                     testCaseDetail: testCaseDetail, 
                     type: 'errorMessage',
                     testResultObject: {
-                        errorMessage: headerMessage + checkElementError.join(', '),
+                        errorMessage: headerMessage + checkElementsErrorArray.join(', '),
                         testStatus: 'Failed'
                     }
                 }).should(() => {
-                    // If writeTestCaseResult is false return error to this test case with errorMessage
+                    // If writeTestCaseResult is false return error to this test case with errorMessage.
                     if(!writeTestCaseResult) {
-                        expect('Failed').to.equal('Pass', headerMessage + checkElementError.join(', '));
+                        expect('Failed').to.equal('Pass', headerMessage + checkElementsErrorArray.join(', '));
                     }
                 });
             } else {
+                // No checkElementsErrorArray, update test case result variable of testStatus to 'Pass' if can finish test till this step.
                 cy.updateTestCaseResultObject({
                     testCaseDetail: testCaseDetail, 
                     type: 'testStatus',

@@ -14,10 +14,19 @@
   },
   "scripts": {
     "cypress:open": "cypress open",
-    "e2eOrder": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_e2eOrder.cy.js'",
-    "login": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_login.cy.js'",
-    "register": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_register.cy.js'",
-    "visit": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/e2eTest_visit.cy.js'"
+    "visit": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_checkElements/e2eTest_visit.cy.js'",
+
+    "brands": "npx cypress run --browser chrome --env commandDelay=10 --spec 'cypress/e2e/scripts/test_checkProducts/e2eTest_brands.cy.js'",
+    "category": "npx cypress run --browser chrome --env commandDelay=10 --spec 'cypress/e2e/scripts/test_checkProducts/e2eTest_category.cy.js'",
+    "search": "npx cypress run --browser chrome --env commandDelay=10 --spec 'cypress/e2e/scripts/test_checkProducts/e2eTest_search.cy.js'",
+    
+    "e2eOrder": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_e2e/e2eTest_e2eOrder.cy.js'",
+   
+    "contact": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_filledForm/e2eTest_contact.cy.js'",
+    "login": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_filledForm/e2eTest_login.cy.js'",
+    "register": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_filledForm/e2eTest_register.cy.js'",
+    "review": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_filledForm/e2eTest_review.cy.js'",
+    "subscription": "npx cypress run --browser chrome --env commandDelay=250 --spec 'cypress/e2e/scripts/test_filledForm/e2eTest_subscription.cy.js'"
   },
   "repository": {
     "type": "git",
