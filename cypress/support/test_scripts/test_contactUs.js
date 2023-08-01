@@ -21,7 +21,7 @@ export const filledFormContactUsTestScripts = (options) => {
         
         const { type, testCaseName } = testCaseDetail;
     
-        describe(`[Contact Us] ${testIndex+1}.${testCaseName}-Test filled form 'Contact Us'`, () => {
+        describe(`[Filled Form] ${testIndex+1}.${testCaseName}-Test filled form 'Contact Us'`, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept.

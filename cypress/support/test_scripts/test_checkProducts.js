@@ -23,7 +23,7 @@ export const checkProductsOnWebsitePageTestScripts = (options) => {
         
         const { type, testCaseName, page } = testCaseDetail;
     
-        describe(`${type} ${testIndex+1}.${testCaseName}-Test '${type}' to check products on website ${page} page.`, () => {
+        describe(`[Check Products] ${testIndex+1}.${testCaseName}-Test '${type}' to check products on website ${page} page.`, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept.

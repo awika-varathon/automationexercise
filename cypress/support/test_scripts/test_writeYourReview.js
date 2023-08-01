@@ -21,7 +21,7 @@ export const filledFormWriteYourReviewTestScripts = (options) => {
         
         const { type, testCaseName } = testCaseDetail;
     
-        describe(`[Contact Us] ${testIndex+1}.${testCaseName}-Test filled form 'Writer Your Review'`, () => {
+        describe(`[Filled Form] ${testIndex+1}.${testCaseName}-Test filled form 'Writer Your Review'`, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept.

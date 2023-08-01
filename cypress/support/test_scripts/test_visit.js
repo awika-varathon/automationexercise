@@ -21,7 +21,7 @@ export const visitCheckElementsOnWebsitePageTestScripts = (options) => {
         
         const { type, testCaseName, page } = testCaseDetail;
     
-        describe(`[Visit] ${testIndex+1}.${testCaseName}-Test 'visit' to check element on website ${page} page.`, () => {
+        describe(`[Check Elements] ${testIndex+1}.${testCaseName}-Test 'visit' to check element on website ${page} page.`, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept.

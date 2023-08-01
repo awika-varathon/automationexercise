@@ -11,9 +11,9 @@ const e2eTestCaseArray = [
     { type: 'search', testCaseName: 'search_05', page: 'products', searchText: 'men' },
     { type: 'search', testCaseName: 'search_06', page: 'products', searchText: 'polo' },
     { type: 'search', testCaseName: 'search_07', page: 'products', searchText: '-' },
-    { type: 'search', testCaseName: 'search_08', page: 'products', searchText: 'pola' },
-    { type: 'search', testCaseName: 'search_09', page: 'products', searchText: '' },
-    { type: 'search', testCaseName: 'search_10', page: 'products', searchText: ' tshirt' }
+    { type: 'search', testCaseName: 'search_08', page: 'products', searchText: '' },
+    { type: 'search', testCaseName: 'search_09', page: 'products', searchText: ' tshirt' },
+    { type: 'search', testCaseName: 'search_10', page: 'products', searchText: 'pola' },
 ]
 
 // Set want to write test case result in CSV or not.

@@ -21,7 +21,7 @@ export const filledFormSubscriptionTestScripts = (options) => {
         
         const { type, testCaseName, page, email, result } = testCaseDetail;
     
-        describe(`[Subscription] ${testIndex+1}.${testCaseName}-Test filled form 'Subscription' on ${page} page.`, () => {
+        describe(`[Filled Form] ${testIndex+1}.${testCaseName}-Test filled form 'Subscription' on ${page} page.`, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept.
@@ -75,9 +75,9 @@ export const filledFormSubscriptionTestScripts = (options) => {
 
                 cy.wait(1000); // Wait for recording video.
 
-                // Button: Click scrollUp to top and check header is visible.
+                // Button: Click scrollUp to top if find scrollUp button and result is 'succees'.Check header is visible.
                 cy.get('a#scrollUp').then($ele => {
-                    if($ele.is(":visible")){
+                    if($ele.is(":visible") && result === 'success'){
                         cy.get($ele).click();
                         cy.get('header').should('be.visible');
                     }

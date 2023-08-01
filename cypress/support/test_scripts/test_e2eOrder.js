@@ -36,7 +36,7 @@ export const e2eOrderTestScripts = (options) => {
         
         const { type, testCaseName } = testCaseDetail;
     
-        describe(`[e2eOrder] ${testIndex+1}.${testCaseName}-Test e2e Order.`, () => {
+        describe(`[e2e] ${testIndex+1}.${testCaseName}-Test e2e Order.`, () => {
           
             beforeEach(() => {
 

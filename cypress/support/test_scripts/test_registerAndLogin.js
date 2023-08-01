@@ -21,7 +21,7 @@ export const filledFormRegisterAndLoginTestScripts = (options) => {
         
         const { type, testCaseName } = testCaseDetail;
     
-        describe(`[Register and login] ${testIndex+1}.${testCaseName}-Test filled form '${type}'`, () => {
+        describe(`[Filled Form] ${testIndex+1}.${testCaseName}-Test filled form '${type}'`, () => {
           
             beforeEach(() => {
                 // API: Set website base intercept.
@@ -61,6 +61,7 @@ export const filledFormRegisterAndLoginTestScripts = (options) => {
                     // User: Deleted user before test 'reg_06' test cases.
                     // Note: 'reg_06' is error test case which after create new account will return error and account will be still exist. Before run test 'reg_06' test case has to check user is exist or not and delete this account first.
                     if(testCaseName === 'reg_06') {
+                        cy.visitPageByURL('login');
                         cy.clearUserFromUserconfig('userObject', {
                             "username": {
                                 "userType": "signup",

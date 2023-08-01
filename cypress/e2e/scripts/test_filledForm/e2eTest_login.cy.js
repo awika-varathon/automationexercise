@@ -10,6 +10,7 @@ const e2eTestCaseArray = [
     { type: 'login',    testCaseName: 'login_04' },
     { type: 'login',    testCaseName: 'login_05' },
     { type: 'login',    testCaseName: 'login_06' },
+    { type: 'login',    testCaseName: 'login_07' },
 ];
 
 // Set want to write test case result in CSV or not.
